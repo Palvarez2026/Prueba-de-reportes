@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Resumen Diario — Mina RA</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
+<style>
+  :root{
+    --bg:#0f172a; --panel:#111827; --panel2:#1a2333; --border:#263244;
+    --text:#e5e9f0; --muted:#8b96a8; --accent:#3b82f6; --good:#22c55e; --bad:#ef4444;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);}
+  #root{max-width:980px;margin:0 auto;padding:24px;}
+  h1{font-size:22px;margin:0 0 2px 0;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .panel{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:20px;}
+  .panel h2{font-size:15px;margin:0 0 12px 0;}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th,td{padding:6px 8px;text-align:right;border-bottom:1px solid var(--border);}
+  th:first-child,td:first-child{text-align:left;color:var(--muted);}
+  thead th{color:var(--muted);font-weight:500;font-size:11px;text-transform:uppercase;}
+  .good{color:var(--good);} .bad{color:var(--bad);} .muted{color:var(--muted);}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:20px;}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
+  .card .label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+  .card .value{font-size:22px;font-weight:600;margin-top:4px;}
+  .bar-bg{background:#0b1220;border-radius:6px;height:8px;overflow:hidden;margin-top:6px;}
+  .bar-fill{background:var(--accent);height:100%;}
+  .bar-fill.over{background:var(--good);}
+  .note{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5;}
+</style>
+</head>
+<body>
+<div style="display:flex;gap:8px;max-width:980px;margin:0 auto;padding:16px 24px 0;">
+  <a href="/" style="padding:6px 12px;border-radius:8px;background:#111827;border:1px solid #263244;color:#8b96a8;text-decoration:none;font-size:13px;">Estado de Resultados</a>
+  <a href="/ingreso_diario.html" style="padding:6px 12px;border-radius:8px;background:#111827;border:1px solid #263244;color:#8b96a8;text-decoration:none;font-size:13px;">Ingreso Diario</a>
+  <a href="/resumen_diario.html" style="padding:6px 12px;border-radius:8px;background:#3b82f6;color:white;text-decoration:none;font-size:13px;">Resumen Diario</a>
+</div>
+<div id="root">Cargando…</div>
+<script type="text/babel" data-presets="react">
+const { useState, useEffect } = React;
+const API_BASE = window.EERR_API_BASE || "";
+
+function todayISO(){ return new Date().toISOString().slice(0,10); }
+function fmt(v, decimals){
+  if (v === null || v === undefined) return "—";
+  return v.toLocaleString("es-CL", {maximumFractionDigits: decimals ?? 1});
+}
+function fmtPct(v){ if (v === null || v === undefined) return "—"; return (v*100).toFixed(1) + "%"; }
+function deltaClass(v){ if (v===null||v===undefined) return "muted"; return v>=0 ? "good" : "bad"; }
+
+function Bar({pct}){
+  const p = pct===null||pct===undefined ? 0 : Math.min(pct*100, 100);
+  return <div className="bar-bg"><div className={"bar-fill" + (pct>=1?" over":"")} style={{width:p+"%"}}></div></div>;
+}
+
+function App(){
+  const [fecha, setFecha] = useState(todayISO());
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetch(API_BASE + "/api/resumen-diario?fecha=" + fecha)
+      .then(r => { if(!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then(d => { setData(d); setError(null); })
+      .catch(e => setError(e.message));
+  }, [fecha]);
+
+  return (
+    <div>
+      <h1>📊 Resumen Diario — Mina RA</h1>
+      <div className="sub">Presupuesto vs. Real del día, acumulado del mes y avance vs. presupuesto.</div>
+
+      <div className="panel" style={{maxWidth:220}}>
+        <label style={{fontSize:12,color:"var(--muted)",display:"block",marginBottom:4}}>Fecha</label>
+        <input type="date" value={fecha} onChange={e=>setFecha(e.target.value)}
+          style={{width:"100%",background:"#0b1220",border:"1px solid var(--border)",color:"var(--text)",borderRadius:6,padding:"7px 9px",fontSize:13}} />
+      </div>
+
+      {error && <div className="panel"><p className="note">No se pudo cargar el resumen para esta fecha ({error}). Puede que aún no existan datos cargados en Ingreso Diario.</p></div>}
+
+      {data && !error && (
+        <React.Fragment>
+          <div className="cards">
+            <div className="card">
+              <div className="label">{data.dia_semana}, {data.fecha}</div>
+              <div className="value">Día {data.dias_transcurridos}/{data.dias_totales_mes}</div>
+              <div className="delta muted">Avance temporal {fmtPct(data.avance_temporal)}</div>
+            </div>
+            <div className="card">
+              <div className="label">Ton Bruta MTD</div>
+              <div className="value">{fmt(data.avance_mes.ton_bruta_mtd,0)}</div>
+              <div className={"delta " + deltaClass(data.avance_mes.ton_bruta_pct - data.avance_temporal)}>{fmtPct(data.avance_mes.ton_bruta_pct)} del presup. mes</div>
+            </div>
+            <div className="card">
+              <div className="label">Concentrado MTD</div>
+              <div className="value">{fmt(data.avance_mes.concentrado_mtd,1)}</div>
+              <div className={"delta " + deltaClass(data.avance_mes.concentrado_pct - data.avance_temporal)}>{fmtPct(data.avance_mes.concentrado_pct)} del presup. mes</div>
+            </div>
+            <div className="card">
+              <div className="label">Ingreso presup. día</div>
+              <div className="value">${fmt(data.financiero.ingreso_presup_dia,0)}</div>
+              <div className="delta muted">Mes: ${fmt(data.financiero.ingreso_presup_mes,0)}</div>
+            </div>
+          </div>
+
+          <div className="panel">
+            <h2>Producción</h2>
+            <table>
+              <thead><tr><th>Concepto</th><th>Presup. mes</th><th>Presup. día</th><th>Real día</th><th>Var</th><th>Acum. MTD</th><th>% Avance</th></tr></thead>
+              <tbody>
+                {data.produccion.map(row => (
+                  <tr key={row.campo}>
+                    <td>{row.label}</td>
+                    <td>{fmt(row.presup_mes,1)}</td>
+                    <td>{fmt(row.presup_dia,2)}</td>
+                    <td>{fmt(row.real_dia,2)}</td>
+                    <td className={deltaClass(row.var)}>{row.var===null?"—":fmt(row.var,2)}</td>
+                    <td>{fmt(row.acum_mtd,1)}</td>
+                    <td>{fmtPct(row.pct_avance)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="panel">
+            <h2>Insumos y control operacional</h2>
+            <table>
+              <thead><tr><th>Concepto</th><th>Real día</th><th>Acum. MTD / prom.</th></tr></thead>
+              <tbody>
+                {data.insumos.map(row => (
+                  <tr key={row.campo}>
+                    <td>{row.label}</td>
+                    <td>{fmt(row.real_dia,2)}</td>
+                    <td>{fmt(row.acum_mtd,2)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="panel">
+            <h2>Avance del mes</h2>
+            <div style={{marginBottom:14}}>
+              <div style={{display:"flex",justifyContent:"space-between",fontSize:13,marginBottom:4}}>
+                <span>Ton Bruta</span><span>{fmt(data.avance_mes.ton_bruta_mtd,0)} / {fmt(data.avance_mes.ton_bruta_presup_mes,0)} ton ({fmtPct(data.avance_mes.ton_bruta_pct)})</span>
+              </div>
+              <Bar pct={data.avance_mes.ton_bruta_pct} />
+            </div>
+            <div>
+              <div style={{display:"flex",justifyContent:"space-between",fontSize:13,marginBottom:4}}>
+                <span>Concentrado</span><span>{fmt(data.avance_mes.concentrado_mtd,1)} / {fmt(data.avance_mes.concentrado_presup_mes,0)} ton ({fmtPct(data.avance_mes.concentrado_pct)})</span>
+              </div>
+              <Bar pct={data.avance_mes.concentrado_pct} />
+            </div>
+            <p className="note">Avance temporal del mes: {fmtPct(data.avance_temporal)}. Si el % de producción va por debajo del avance temporal, la mina está atrasada respecto al presupuesto.</p>
+          </div>
+
+          <div className="panel">
+            <h2>Avance de la semana (lunes a hoy)</h2>
+            <div style={{marginBottom:14}}>
+              <div style={{display:"flex",justifyContent:"space-between",fontSize:13,marginBottom:4}}>
+                <span>Ton Bruta</span><span>{fmt(data.avance_semana.ton_bruta_semana,0)} / {fmt(data.avance_semana.ton_bruta_presup_semana,0)} ton ({fmtPct(data.avance_semana.ton_bruta_pct)})</span>
+              </div>
+              <Bar pct={data.avance_semana.ton_bruta_pct} />
+            </div>
+            <div>
+              <div style={{display:"flex",justifyContent:"space-between",fontSize:13,marginBottom:4}}>
+                <span>Concentrado</span><span>{fmt(data.avance_semana.concentrado_semana,1)} / {fmt(data.avance_semana.concentrado_presup_semana,1)} ton ({fmtPct(data.avance_semana.concentrado_pct)})</span>
+              </div>
+              <Bar pct={data.avance_semana.concentrado_pct} />
+            </div>
+          </div>
+
+          {data.novedades && (
+            <div className="panel">
+              <h2>Novedades del día</h2>
+              <p className="note" style={{fontSize:13,color:"var(--text)"}}>{data.novedades}</p>
+            </div>
+          )}
+        </React.Fragment>
+      )}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

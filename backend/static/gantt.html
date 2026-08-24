@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Carta Gantt — Minera RA</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
+<style>
+  :root{
+    --bg:#0f172a; --panel:#111827; --panel2:#1a2333; --border:#263244;
+    --text:#e5e9f0; --muted:#8b96a8; --accent:#3b82f6;
+    --good:#22c55e; --bad:#ef4444; --warn:#f59e0b; --idle:#64748b;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);}
+  #root{max-width:900px;margin:0 auto;padding:16px 14px 40px;}
+  h1{font-size:20px;margin:0 0 2px 0;}
+  .sub{color:var(--muted);font-size:12.5px;margin-bottom:16px;}
+  .navbar{display:flex;gap:8px;max-width:900px;margin:0 auto;padding:14px 14px 0;flex-wrap:wrap;}
+  .navlink{padding:6px 12px;border-radius:8px;background:var(--panel);border:1px solid var(--border);
+       color:var(--muted);text-decoration:none;font-size:13px;}
+  .navlink.active{background:var(--accent);color:white;border-color:var(--accent);}
+
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:16px;}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 12px;}
+  .card .label{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;}
+  .card .value{font-size:19px;font-weight:600;margin-top:3px;}
+
+  .filters{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+  .filter{padding:6px 11px;border-radius:20px;border:1px solid var(--border);background:var(--panel);
+       cursor:pointer;font-size:12px;color:var(--muted);white-space:nowrap;}
+  .filter.active{background:var(--accent);color:white;border-color:var(--accent);}
+
+  .panel{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:14px;}
+  .panel h2{font-size:14px;margin:0 0 10px 0;}
+
+  .resumen-ejecutivo .cards{margin-bottom:12px;}
+  .resumen-listas{display:flex;flex-direction:column;gap:2px;}
+  .resumen-grupo{border-top:1px solid var(--border);}
+  .resumen-grupo:first-child{border-top:none;}
+  .resumen-grupo-head{display:flex;align-items:center;gap:8px;padding:9px 2px;cursor:pointer;}
+  .resumen-grupo-head .dot{width:8px;height:8px;border-radius:50%;flex:0 0 auto;}
+  .resumen-grupo-label{font-size:12.5px;font-weight:600;flex:1;}
+  .resumen-grupo-toggle{color:var(--muted);font-size:11px;}
+  .resumen-grupo-empty{color:var(--muted);font-size:12px;padding:0 2px 10px 18px;}
+  .resumen-grupo-list{list-style:none;margin:0;padding:0 2px 10px 18px;display:flex;flex-direction:column;gap:5px;}
+  .resumen-grupo-list li{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--text);}
+  .resumen-item-pct{color:var(--muted);flex:0 0 auto;}
+
+  .task{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:10px;}
+  .task-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px;}
+  .task-name{font-size:14px;font-weight:600;flex:1;}
+  .badge{font-size:10.5px;padding:2px 8px;border-radius:20px;white-space:nowrap;font-weight:600;}
+  .badge.completada{background:rgba(34,197,94,.15);color:var(--good);}
+  .badge.atrasada{background:rgba(239,68,68,.15);color:var(--bad);}
+  .badge.en_curso{background:rgba(245,158,11,.15);color:var(--warn);}
+  .badge.no_iniciada{background:rgba(100,116,139,.15);color:var(--idle);}
+
+  .timeline{position:relative;height:16px;background:#0b1220;border-radius:5px;margin:8px 0 10px;overflow:hidden;}
+  .bar-plan{position:absolute;top:2px;height:5px;border-radius:3px;background:#37415a;}
+  .bar-real{position:absolute;bottom:2px;height:5px;border-radius:3px;}
+  .today-line{position:absolute;top:0;bottom:0;width:2px;background:#f8fafc;opacity:.55;}
+
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px;font-size:11.5px;color:var(--muted);margin-bottom:8px;}
+  .meta-row b{color:var(--text);font-weight:500;}
+
+  .edit-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;}
+  .field{margin-bottom:0;}
+  .field label{display:block;font-size:10.5px;color:var(--muted);margin-bottom:3px;}
+  select, input, textarea{width:100%;background:#0b1220;border:1px solid var(--border);color:var(--text);
+       border-radius:6px;padding:6px 8px;font-size:12.5px;font-family:inherit;}
+  select:focus, input:focus, textarea:focus{outline:1px solid var(--accent);}
+  .pct-row{display:flex;align-items:center;gap:8px;}
+  .pct-row input[type=range]{flex:1;}
+  .pct-value{font-size:12.5px;font-weight:600;width:38px;text-align:right;}
+
+  .task-actions{display:flex;justify-content:flex-end;margin-top:8px;}
+  .link-btn{background:none;border:none;color:var(--muted);font-size:11.5px;cursor:pointer;padding:4px 6px;}
+  .link-btn:hover{color:var(--bad);}
+
+  button.primary{background:var(--accent);color:white;border:none;border-radius:8px;padding:9px 16px;
+       font-size:13px;cursor:pointer;width:100%;}
+  button.primary:hover{opacity:.9;}
+  .add-toggle{background:var(--panel);border:1px dashed var(--border);color:var(--muted);
+       border-radius:10px;padding:10px;font-size:13px;cursor:pointer;width:100%;margin-bottom:14px;text-align:center;}
+
+  .save-msg{font-size:11.5px;color:var(--good);margin-left:6px;}
+  .footer{color:var(--muted);font-size:11.5px;text-align:center;margin-top:20px;}
+  .empty{color:var(--muted);font-size:13px;text-align:center;padding:20px 0;}
+</style>
+</head>
+<body>
+<div class="navbar">
+  <a href="/" class="navlink">Estado de Resultados</a>
+  <a href="/ingreso_diario.html" class="navlink">Ingreso Diario</a>
+  <a href="/resumen_diario.html" class="navlink">Resumen Diario</a>
+  <a href="/gantt.html" class="navlink active">Carta Gantt</a>
+</div>
+<div id="root">Cargando…</div>
+<script type="text/babel" data-presets="react">
+const { useState, useEffect, useCallback, useMemo } = React;
+const API_BASE = window.EERR_API_BASE || "";
+
+const ESTADO_LABEL = {
+  completada: "Completada", atrasada: "Atrasada",
+  en_curso: "En curso", no_iniciada: "No iniciada",
+};
+const ESTADO_COLOR = {
+  completada: "#22c55e", atrasada: "#ef4444", en_curso: "#f59e0b", no_iniciada: "#64748b",
+};
+const FILTROS = [
+  {key:"todas", label:"Todas"}, {key:"atrasada", label:"Atrasadas"},
+  {key:"en_curso", label:"En curso"}, {key:"no_iniciada", label:"No iniciadas"},
+  {key:"completada", label:"Completadas"},
+];
+
+function fmtDate(iso){
+  if (!iso) return "—";
+  const [y,m,d] = iso.split("-");
+  return `${d}/${m}`;
+}
+function fmtPct(v){ return Math.round((v||0)*100) + "%"; }
+
+function ResumenEjecutivo({data}){
+  const [abierto, setAbierto] = useState(null);
+  const grupos = [
+    {key:"atrasada", label:"Atrasadas", color:"var(--bad)"},
+    {key:"en_curso", label:"En curso", color:"var(--warn)"},
+    {key:"completada", label:"Completadas", color:"var(--good)"},
+    {key:"no_iniciada", label:"No iniciadas", color:"var(--idle)"},
+  ];
+  const porEstado = (k) => data.tareas.filter(t=>t.estado===k)
+    .sort((a,b)=>(a.fecha_inicio_plan||"").localeCompare(b.fecha_inicio_plan||""));
+
+  return (
+    <div className="panel resumen-ejecutivo">
+      <h2>Resumen ejecutivo</h2>
+      <div className="cards">
+        <div className="card"><div className="label">Tareas</div><div className="value">{data.resumen.total}</div></div>
+        <div className="card"><div className="label">Avance</div><div className="value" style={{color:"var(--accent)"}}>{fmtPct(data.resumen.avance_promedio)}</div></div>
+        <div className="card"><div className="label">Atrasadas</div><div className="value" style={{color:"var(--bad)"}}>{data.resumen.atrasadas}</div></div>
+        <div className="card"><div className="label">En curso</div><div className="value" style={{color:"var(--warn)"}}>{data.resumen.en_curso}</div></div>
+        <div className="card"><div className="label">Completadas</div><div className="value" style={{color:"var(--good)"}}>{data.resumen.completadas}</div></div>
+        <div className="card"><div className="label">No iniciadas</div><div className="value" style={{color:"var(--idle)"}}>{data.resumen.no_iniciadas}</div></div>
+      </div>
+      <div className="resumen-listas">
+        {grupos.map(g => {
+          const items = porEstado(g.key);
+          const isOpen = abierto === g.key;
+          return (
+            <div key={g.key} className="resumen-grupo">
+              <div className="resumen-grupo-head" onClick={()=>setAbierto(isOpen ? null : g.key)}>
+                <span className="dot" style={{background:g.color}}></span>
+                <span className="resumen-grupo-label">{g.label} ({items.length})</span>
+                <span className="resumen-grupo-toggle">{isOpen ? "▴" : "▾"}</span>
+              </div>
+              {isOpen && (
+                items.length === 0
+                  ? <div className="resumen-grupo-empty">Sin actividades en este estado.</div>
+                  : <ul className="resumen-grupo-list">
+                      {items.map(t => (
+                        <li key={t.id}>
+                          <span>{t.actividad}</span>
+                          <span className="resumen-item-pct">{fmtPct(t.porcentaje)}</span>
+                        </li>
+                      ))}
+                    </ul>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function diffDays(a, b){
+  return Math.round((new Date(b) - new Date(a)) / 86400000);
+}
+
+function TaskCard({t, rango, hoy, responsables, onSave, onDelete}){
+  const [open, setOpen] = useState(false);
+  const [form, setForm] = useState(t);
+  const [saveMsg, setSaveMsg] = useState("");
+  useEffect(()=>{ setForm(t); }, [t]);
+
+  const totalDias = rango.dias_totales || 1;
+  const pctOf = (iso) => Math.max(0, Math.min(100, (diffDays(rango.inicio, iso) / totalDias) * 100));
+  const widthOf = (dur) => Math.max(1.5, ((dur||1) / totalDias) * 100);
+
+  const planLeft = t.fecha_inicio_plan ? pctOf(t.fecha_inicio_plan) : 0;
+  const planWidth = widthOf(t.duracion_plan);
+  const realLeft = t.fecha_inicio_real ? pctOf(t.fecha_inicio_real) : 0;
+  const realWidth = widthOf(t.duracion_real);
+  const hoyLeft = pctOf(hoy);
+
+  const save = (patch) => {
+    const next = {...form, ...patch};
+    setForm(next);
+    onSave(next).then(()=>{ setSaveMsg("Guardado ✓"); setTimeout(()=>setSaveMsg(""),1200); });
+  };
+
+  return (
+    <div className="task">
+      <div className="task-top">
+        <div className="task-name">{t.actividad}</div>
+        <span className={"badge " + t.estado}>{ESTADO_LABEL[t.estado]}</span>
+      </div>
+
+      <div className="timeline">
+        <div className="bar-plan" style={{left:planLeft+"%", width:planWidth+"%"}}></div>
+        <div className="bar-real" style={{left:realLeft+"%", width:realWidth+"%", background:ESTADO_COLOR[t.estado]}}></div>
+        <div className="today-line" style={{left:hoyLeft+"%"}}></div>
+      </div>
+
+      <div className="meta-row">
+        <span>Plan: <b>{fmtDate(t.fecha_inicio_plan)}–{fmtDate(t.fecha_fin_plan)}</b></span>
+        <span>Real: <b>{fmtDate(t.fecha_inicio_real)}–{fmtDate(t.fecha_fin_real)}</b></span>
+        <span>Resp: <b>{t.responsable || "sin asignar"}</b></span>
+      </div>
+
+      <div className="pct-row">
+        <input type="range" min="0" max="100" value={Math.round((form.porcentaje||0)*100)}
+          onChange={e=>setForm({...form, porcentaje: Number(e.target.value)/100})}
+          onMouseUp={e=>save({porcentaje: Number(e.target.value)/100})}
+          onTouchEnd={e=>save({porcentaje: Number(e.target.value)/100})} />
+        <span className="pct-value">{fmtPct(form.porcentaje)}</span>
+        {saveMsg && <span className="save-msg">{saveMsg}</span>}
+      </div>
+
+      {!open && <button className="link-btn" onClick={()=>setOpen(true)}>Editar detalle ▾</button>}
+      {open && (
+        <div>
+          <div className="edit-row">
+            <div className="field">
+              <label>Responsable</label>
+              <select value={form.responsable||""} onChange={e=>save({responsable:e.target.value})}>
+                <option value="">Sin asignar</option>
+                {responsables.map(r => <option key={r} value={r}>{r}</option>)}
+              </select>
+            </div>
+            <div className="field">
+              <label>Duración real (días)</label>
+              <input type="number" min="0" value={form.duracion_real ?? ""}
+                onChange={e=>setForm({...form, duracion_real: e.target.value})}
+                onBlur={e=>save({duracion_real: e.target.value===""?null:Number(e.target.value)})} />
+            </div>
+            <div className="field">
+              <label>Inicio real</label>
+              <input type="date" value={form.fecha_inicio_real || ""}
+                onChange={e=>save({fecha_inicio_real: e.target.value || null})} />
+            </div>
+            <div className="field">
+              <label>Inicio plan</label>
+              <input type="date" value={form.fecha_inicio_plan || ""}
+                onChange={e=>save({fecha_inicio_plan: e.target.value || null})} />
+            </div>
+          </div>
+          <div className="task-actions">
+            <button className="link-btn" onClick={()=>setOpen(false)}>Cerrar ▴</button>
+            <button className="link-btn" onClick={()=>{ if(confirm("¿Eliminar esta actividad?")) onDelete(t.id); }}>Eliminar</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function AddForm({responsables, onAdd, onClose}){
+  const [form, setForm] = useState({
+    actividad:"", fecha_inicio_plan:"", duracion_plan:1,
+    fecha_inicio_real:"", duracion_real:"", responsable:"", porcentaje:0,
+  });
+  const set = (k) => (e) => setForm({...form, [k]: e.target.value});
+  const submit = () => {
+    if (!form.actividad.trim()) return;
+    onAdd({
+      ...form,
+      duracion_plan: form.duracion_plan===""?null:Number(form.duracion_plan),
+      duracion_real: form.duracion_real===""?null:Number(form.duracion_real),
+      fecha_inicio_real: form.fecha_inicio_real || null,
+      porcentaje: Number(form.porcentaje)/100,
+    });
+  };
+  return (
+    <div className="panel">
+      <h2>Nueva actividad</h2>
+      <div className="field" style={{marginBottom:8}}>
+        <label>Nombre de la actividad</label>
+        <input value={form.actividad} onChange={set("actividad")} placeholder="Ej: Instalación faena" />
+      </div>
+      <div className="edit-row">
+        <div className="field">
+          <label>Inicio plan</label>
+          <input type="date" value={form.fecha_inicio_plan} onChange={set("fecha_inicio_plan")} />
+        </div>
+        <div className="field">
+          <label>Duración plan (días)</label>
+          <input type="number" min="1" value={form.duracion_plan} onChange={set("duracion_plan")} />
+        </div>
+        <div className="field">
+          <label>Responsable</label>
+          <select value={form.responsable} onChange={set("responsable")}>
+            <option value="">Sin asignar</option>
+            {responsables.map(r => <option key={r} value={r}>{r}</option>)}
+          </select>
+        </div>
+        <div className="field">
+          <label>% completado</label>
+          <input type="number" min="0" max="100" value={Math.round(form.porcentaje)} onChange={set("porcentaje")} />
+        </div>
+      </div>
+      <div style={{display:"flex",gap:8,marginTop:12}}>
+        <button className="primary" onClick={submit}>Agregar</button>
+        <button className="primary" style={{background:"var(--panel2)",border:"1px solid var(--border)"}} onClick={onClose}>Cancelar</button>
+      </div>
+    </div>
+  );
+}
+
+function App(){
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [filtro, setFiltro] = useState("todas");
+  const [showAdd, setShowAdd] = useState(false);
+
+  const load = useCallback(() => {
+    fetch(API_BASE + "/api/gantt")
+      .then(r => { if(!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then(d => { setData(d); setError(null); })
+      .catch(e => setError(e.message));
+  }, []);
+
+  useEffect(() => { load(); }, [load]);
+
+  const saveTarea = (tarea) => {
+    return fetch(API_BASE + "/api/gantt/tarea", {
+      method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(tarea),
+    }).then(r => r.json()).then(d => setData(d));
+  };
+  const addTarea = (tarea) => {
+    fetch(API_BASE + "/api/gantt/tarea", {
+      method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(tarea),
+    }).then(r => r.json()).then(d => { setData(d); setShowAdd(false); });
+  };
+  const deleteTarea = (id) => {
+    fetch(API_BASE + "/api/gantt/tarea/" + id, { method: "DELETE" })
+      .then(r => r.json()).then(d => setData(d));
+  };
+
+  if (error) {
+    return <div className="panel">
+      <h2>No se pudo conectar a la API ({API_BASE})</h2>
+      <p className="note">Verifica que el backend esté corriendo. Error: {error}</p>
+    </div>;
+  }
+  if (!data) return <div>Cargando…</div>;
+
+  const tareas = data.tareas.filter(t => filtro === "todas" ? true : t.estado === filtro);
+  const ordenadas = [...tareas].sort((a,b) => (a.fecha_inicio_plan||"").localeCompare(b.fecha_inicio_plan||""));
+
+  return (
+    <div>
+      <h1>📅 Carta Gantt — {data.meta.proyecto}</h1>
+      <div className="sub">Inicio del proyecto: {fmtDate(data.meta.fecha_inicio_proyecto)} · hoy {fmtDate(data.hoy)} · datos: {data.meta.fuente}</div>
+
+      <ResumenEjecutivo data={data} />
+
+      <div className="filters">
+        {FILTROS.map(f => (
+          <div key={f.key} className={"filter" + (filtro===f.key?" active":"")} onClick={()=>setFiltro(f.key)}>{f.label}</div>
+        ))}
+      </div>
+
+      {!showAdd && <button className="add-toggle" onClick={()=>setShowAdd(true)}>+ Agregar actividad</button>}
+      {showAdd && <AddForm responsables={data.responsables} onAdd={addTarea} onClose={()=>setShowAdd(false)} />}
+
+      {ordenadas.length === 0 && <div className="empty">No hay actividades en este filtro.</div>}
+      {ordenadas.map(t => (
+        <TaskCard key={t.id} t={t} rango={data.rango} hoy={data.hoy}
+          responsables={data.responsables} onSave={saveTarea} onDelete={deleteTarea} />
+      ))}
+
+      <div className="footer">Línea gris = plan · barra de color = avance real · línea vertical = hoy</div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

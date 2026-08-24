@@ -14,6 +14,7 @@ from pydantic import BaseModel
 
 import engine
 import daily
+import gantt
 
 app = FastAPI(title="EERR Mina RA API", version="1.0")
 
@@ -29,6 +30,17 @@ class RealUpdate(BaseModel):
     line: str
     month: str
     value: float | None = None
+
+
+class GanttTarea(BaseModel):
+    id: Optional[str] = None
+    actividad: Optional[str] = None
+    fecha_inicio_plan: Optional[str] = None
+    duracion_plan: Optional[int] = None
+    fecha_inicio_real: Optional[str] = None
+    duracion_real: Optional[int] = None
+    responsable: Optional[str] = None
+    porcentaje: Optional[float] = None
 
 
 class DailyEntry(BaseModel):
@@ -91,6 +103,34 @@ def get_resumen_diario(fecha: str):
         return daily.compute_resumen(fecha)
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"No se pudo calcular el resumen: {e}")
+
+
+@app.get("/api/gantt")
+def get_gantt():
+    state = gantt.load_state()
+    return gantt.compute_gantt(state)
+
+
+@app.post("/api/gantt/tarea")
+def post_gantt_tarea(tarea: GanttTarea):
+    state = gantt.load_state()
+    try:
+        gantt.upsert_tarea(state, tarea.model_dump(exclude_none=False))
+    except KeyError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    gantt.save_state(state)
+    return gantt.compute_gantt(state)
+
+
+@app.delete("/api/gantt/tarea/{tarea_id}")
+def delete_gantt_tarea(tarea_id: str):
+    state = gantt.load_state()
+    try:
+        gantt.delete_tarea(state, tarea_id)
+    except KeyError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    gantt.save_state(state)
+    return gantt.compute_gantt(state)
 
 
 @app.get("/api/health")

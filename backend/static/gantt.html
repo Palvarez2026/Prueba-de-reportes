@@ -49,6 +49,9 @@
   .resumen-grupo-list{list-style:none;margin:0;padding:0 2px 10px 18px;display:flex;flex-direction:column;gap:5px;}
   .resumen-grupo-list li{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--text);}
   .resumen-item-pct{color:var(--muted);flex:0 0 auto;}
+  .resumen-item-link{cursor:pointer;border-radius:6px;padding:2px 4px;margin:0 -4px;}
+  .resumen-item-link:hover{background:var(--panel2);}
+  .resumen-item-link:active{background:var(--border);}
   .resumen-tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;}
   .resumen-tab{padding:5px 11px;border-radius:8px;border:1px solid var(--border);background:var(--panel2);
        cursor:pointer;font-size:12px;color:var(--muted);}
@@ -88,6 +91,10 @@
   .pct-row{display:flex;align-items:center;gap:8px;}
   .pct-row input[type=range]{flex:1;}
   .pct-value{font-size:12.5px;font-weight:600;width:38px;text-align:right;}
+  .comment-row{margin-bottom:8px;}
+  .comment-row textarea{resize:vertical;font-size:12.5px;}
+  .task.highlight{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent);
+       transition:box-shadow .3s ease, border-color .3s ease;}
 
   .task-actions{display:flex;justify-content:flex-end;margin-top:8px;}
   .link-btn{background:none;border:none;color:var(--muted);font-size:11.5px;cursor:pointer;padding:4px 6px;}
@@ -142,7 +149,7 @@ const CRIT_COLOR_VAR = {
 };
 const RESP_PALETTE = ["var(--accent)", "var(--good)", "var(--warn)", "var(--crit-normativa)", "var(--bad)", "#38bdf8", "#eab308"];
 
-function ResumenEjecutivo({data}){
+function ResumenEjecutivo({data, onJump}){
   const [abierto, setAbierto] = useState(null);
   const [vista, setVista] = useState("estado");
 
@@ -200,7 +207,7 @@ function ResumenEjecutivo({data}){
                   ? <div className="resumen-grupo-empty">Sin actividades en esta categoría.</div>
                   : <ul className="resumen-grupo-list">
                       {items.map(t => (
-                        <li key={t.id}>
+                        <li key={t.id} className="resumen-item-link" onClick={()=>onJump(t.id)}>
                           <span>{t.actividad}</span>
                           <span className="resumen-item-pct">{fmtPct(t.porcentaje)}</span>
                         </li>
@@ -219,7 +226,7 @@ function diffDays(a, b){
   return Math.round((new Date(b) - new Date(a)) / 86400000);
 }
 
-function TaskCard({t, rango, hoy, responsables, criticidades, onSave, onDelete}){
+function TaskCard({t, rango, hoy, responsables, criticidades, resaltada, onSave, onDelete}){
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState(t);
   const [saveMsg, setSaveMsg] = useState("");
@@ -242,7 +249,7 @@ function TaskCard({t, rango, hoy, responsables, criticidades, onSave, onDelete})
   };
 
   return (
-    <div className="task">
+    <div id={"tarea-" + t.id} className={"task" + (resaltada === t.id ? " highlight" : "")}>
       <div className="task-top">
         <div className="task-name">{t.actividad}</div>
         <div style={{display:"flex",gap:5,flexWrap:"wrap",justifyContent:"flex-end"}}>
@@ -274,6 +281,12 @@ function TaskCard({t, rango, hoy, responsables, criticidades, onSave, onDelete})
           onTouchEnd={e=>save({porcentaje: Number(e.target.value)/100})} />
         <span className="pct-value">{fmtPct(form.porcentaje)}</span>
         {saveMsg && <span className="save-msg">{saveMsg}</span>}
+      </div>
+
+      <div className="comment-row">
+        <textarea rows="2" placeholder="Agregar comentario…" value={form.comentario || ""}
+          onChange={e=>setForm({...form, comentario: e.target.value})}
+          onBlur={e=>save({comentario: e.target.value})} />
       </div>
 
       {!open && <button className="link-btn" onClick={()=>setOpen(true)}>Editar detalle ▾</button>}
@@ -372,6 +385,10 @@ function AddForm({responsables, criticidades, onAdd, onClose}){
           <input type="number" min="0" max="100" value={Math.round(form.porcentaje)} onChange={set("porcentaje")} />
         </div>
       </div>
+      <div className="field" style={{marginTop:8}}>
+        <label>Comentario (opcional)</label>
+        <textarea rows="2" value={form.comentario||""} onChange={set("comentario")} placeholder="Notas de esta actividad…" />
+      </div>
       <div style={{display:"flex",gap:8,marginTop:12}}>
         <button className="primary" onClick={submit}>Agregar</button>
         <button className="primary" style={{background:"var(--panel2)",border:"1px solid var(--border)"}} onClick={onClose}>Cancelar</button>
@@ -385,6 +402,7 @@ function App(){
   const [error, setError] = useState(null);
   const [filtro, setFiltro] = useState("todas");
   const [showAdd, setShowAdd] = useState(false);
+  const [resaltada, setResaltada] = useState(null);
 
   const load = useCallback(() => {
     fetch(API_BASE + "/api/gantt")
@@ -394,6 +412,16 @@ function App(){
   }, []);
 
   useEffect(() => { load(); }, [load]);
+
+  useEffect(() => {
+    if (!resaltada) return;
+    const el = document.getElementById("tarea-" + resaltada);
+    if (el) el.scrollIntoView({behavior:"smooth", block:"center"});
+    const timer = setTimeout(() => setResaltada(null), 2200);
+    return () => clearTimeout(timer);
+  }, [resaltada, data]);
+
+  const jumpTo = (id) => { setFiltro("todas"); setResaltada(id); };
 
   const saveTarea = (tarea) => {
     return fetch(API_BASE + "/api/gantt/tarea", {
@@ -426,7 +454,7 @@ function App(){
       <h1>📅 Carta Gantt — {data.meta.proyecto}</h1>
       <div className="sub">Inicio del proyecto: {fmtDate(data.meta.fecha_inicio_proyecto)} · hoy {fmtDate(data.hoy)} · datos: {data.meta.fuente}</div>
 
-      <ResumenEjecutivo data={data} />
+      <ResumenEjecutivo data={data} onJump={jumpTo} />
 
       <div className="filters">
         {FILTROS.map(f => (
@@ -439,7 +467,7 @@ function App(){
 
       {ordenadas.length === 0 && <div className="empty">No hay actividades en este filtro.</div>}
       {ordenadas.map(t => (
-        <TaskCard key={t.id} t={t} rango={data.rango} hoy={data.hoy}
+        <TaskCard key={t.id} t={t} rango={data.rango} hoy={data.hoy} resaltada={resaltada}
           responsables={data.responsables} criticidades={data.criticidades} onSave={saveTarea} onDelete={deleteTarea} />
       ))}
 

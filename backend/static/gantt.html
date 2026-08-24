@@ -260,8 +260,10 @@ function TaskCard({t, rango, hoy, responsables, criticidades, onSave, onDelete})
       </div>
 
       <div className="meta-row">
-        <span>Plan: <b>{fmtDate(t.fecha_inicio_plan)}–{fmtDate(t.fecha_fin_plan)}</b></span>
-        <span>Real: <b>{fmtDate(t.fecha_inicio_real)}–{fmtDate(t.fecha_fin_real)}</b></span>
+        <span>Inicio plan: <b>{fmtDate(t.fecha_inicio_plan)}</b></span>
+        <span>Término plan: <b>{fmtDate(t.fecha_fin_plan)}</b></span>
+        <span>Inicio real: <b>{fmtDate(t.fecha_inicio_real)}</b></span>
+        <span>Término real: <b>{fmtDate(t.fecha_fin_real)}</b></span>
         <span>Resp: <b>{t.responsable || "sin asignar"}</b></span>
       </div>
 

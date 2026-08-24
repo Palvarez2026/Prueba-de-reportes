@@ -23,7 +23,8 @@
       "duracion_real": 4,
       "responsable": "",
       "porcentaje": 0.25,
-      "criticidad": null
+      "criticidad": null,
+      "comentario": ""
     },
     {
       "id": "act-02",
@@ -34,7 +35,8 @@
       "duracion_real": 6,
       "responsable": "",
       "porcentaje": 1.0,
-      "criticidad": null
+      "criticidad": null,
+      "comentario": ""
     },
     {
       "id": "act-03",
@@ -45,7 +47,8 @@
       "duracion_real": 5,
       "responsable": "",
       "porcentaje": 0.35,
-      "criticidad": null
+      "criticidad": null,
+      "comentario": ""
     },
     {
       "id": "act-04",
@@ -56,7 +59,8 @@
       "duracion_real": 6,
       "responsable": "",
       "porcentaje": 0.1,
-      "criticidad": null
+      "criticidad": null,
+      "comentario": ""
     },
     {
       "id": "act-05",
@@ -67,7 +71,8 @@
       "duracion_real": 8,
       "responsable": "",
       "porcentaje": 0.85,
-      "criticidad": null
+      "criticidad": null,
+      "comentario": ""
     },
     {
       "id": "act-06",
@@ -78,7 +83,8 @@
       "duracion_real": 6,
       "responsable": "",
       "porcentaje": 0.85,
-      "criticidad": null
+      "criticidad": null,
+      "comentario": ""
     },
     {
       "id": "act-07",
@@ -89,7 +95,8 @@
       "duracion_real": 3,
       "responsable": "",
       "porcentaje": 0.5,
-      "criticidad": null
+      "criticidad": null,
+      "comentario": ""
     },
     {
       "id": "act-08",
@@ -100,7 +107,8 @@
       "duracion_real": 5,
       "responsable": "",
       "porcentaje": 0.6,
-      "criticidad": null
+      "criticidad": null,
+      "comentario": ""
     },
     {
       "id": "act-09",
@@ -111,7 +119,8 @@
       "duracion_real": 6,
       "responsable": "",
       "porcentaje": 0.75,
-      "criticidad": null
+      "criticidad": null,
+      "comentario": ""
     },
     {
       "id": "act-10",
@@ -122,7 +131,8 @@
       "duracion_real": 7,
       "responsable": "",
       "porcentaje": 1.0,
-      "criticidad": null
+      "criticidad": null,
+      "comentario": ""
     },
     {
       "id": "act-11",
@@ -133,7 +143,8 @@
       "duracion_real": 8,
       "responsable": "",
       "porcentaje": 0.6,
-      "criticidad": null
+      "criticidad": null,
+      "comentario": ""
     },
     {
       "id": "act-12",
@@ -144,7 +155,8 @@
       "duracion_real": 3,
       "responsable": "",
       "porcentaje": 1.0,
-      "criticidad": null
+      "criticidad": null,
+      "comentario": ""
     },
     {
       "id": "act-13",
@@ -155,7 +167,8 @@
       "duracion_real": 7,
       "responsable": "",
       "porcentaje": 0.5,
-      "criticidad": null
+      "criticidad": null,
+      "comentario": ""
     },
     {
       "id": "act-14",
@@ -166,7 +179,8 @@
       "duracion_real": 1,
       "responsable": "",
       "porcentaje": 0.0,
-      "criticidad": null
+      "criticidad": null,
+      "comentario": ""
     },
     {
       "id": "act-15",
@@ -177,7 +191,8 @@
       "duracion_real": 5,
       "responsable": "",
       "porcentaje": 1.0,
-      "criticidad": null
+      "criticidad": null,
+      "comentario": ""
     },
     {
       "id": "act-16",
@@ -188,7 +203,8 @@
       "duracion_real": 3,
       "responsable": "",
       "porcentaje": 0.8,
-      "criticidad": null
+      "criticidad": null,
+      "comentario": ""
     },
     {
       "id": "act-17",
@@ -199,7 +215,8 @@
       "duracion_real": 5,
       "responsable": "",
       "porcentaje": 0.0,
-      "criticidad": null
+      "criticidad": null,
+      "comentario": ""
     },
     {
       "id": "act-18",
@@ -210,7 +227,8 @@
       "duracion_real": 7,
       "responsable": "",
       "porcentaje": 0.0,
-      "criticidad": null
+      "criticidad": null,
+      "comentario": ""
     },
     {
       "id": "act-19",
@@ -221,7 +239,8 @@
       "duracion_real": 5,
       "responsable": "",
       "porcentaje": 0.0,
-      "criticidad": null
+      "criticidad": null,
+      "comentario": ""
     },
     {
       "id": "act-20",
@@ -232,7 +251,8 @@
       "duracion_real": 6,
       "responsable": "",
       "porcentaje": 0.0,
-      "criticidad": null
+      "criticidad": null,
+      "comentario": ""
     },
     {
       "id": "act-21",
@@ -243,7 +263,8 @@
       "duracion_real": 2,
       "responsable": "",
       "porcentaje": 0.44,
-      "criticidad": null
+      "criticidad": null,
+      "comentario": ""
     },
     {
       "id": "act-22",
@@ -254,7 +275,8 @@
       "duracion_real": 3,
       "responsable": "",
       "porcentaje": 0.0,
-      "criticidad": null
+      "criticidad": null,
+      "comentario": ""
     },
     {
       "id": "act-23",
@@ -265,7 +287,8 @@
       "duracion_real": 8,
       "responsable": "",
       "porcentaje": 0.12,
-      "criticidad": null
+      "criticidad": null,
+      "comentario": ""
     },
     {
       "id": "act-24",
@@ -276,7 +299,8 @@
       "duracion_real": 3,
       "responsable": "",
       "porcentaje": 0.05,
-      "criticidad": null
+      "criticidad": null,
+      "comentario": ""
     },
     {
       "id": "act-25",
@@ -287,7 +311,8 @@
       "duracion_real": 5,
       "responsable": "",
       "porcentaje": 0.0,
-      "criticidad": null
+      "criticidad": null,
+      "comentario": ""
     },
     {
       "id": "act-26",
@@ -298,7 +323,8 @@
       "duracion_real": 30,
       "responsable": "",
       "porcentaje": 0.5,
-      "criticidad": null
+      "criticidad": null,
+      "comentario": ""
     }
   ]
 }

@@ -109,7 +109,7 @@ def upsert_tarea(state, tarea_in):
     tareas = state["tareas"]
     tid = tarea_in.get("id")
 
-    CAMPOS_ANULABLES = ("responsable", "criticidad")
+    CAMPOS_ANULABLES = ("responsable", "criticidad", "comentario")
 
     if tid:
         for i, t in enumerate(tareas):
@@ -129,6 +129,7 @@ def upsert_tarea(state, tarea_in):
         "duracion_real": tarea_in.get("duracion_real"),
         "responsable": tarea_in.get("responsable", ""),
         "criticidad": tarea_in.get("criticidad") or None,
+        "comentario": tarea_in.get("comentario", ""),
         "porcentaje": tarea_in.get("porcentaje", 0.0),
     }
     tareas.append(nueva)

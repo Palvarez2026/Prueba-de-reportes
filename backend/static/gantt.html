@@ -49,7 +49,7 @@
   .resumen-grupo-list{list-style:none;margin:0;padding:0 2px 10px 18px;display:flex;flex-direction:column;gap:5px;}
   .resumen-grupo-list li{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--text);}
   .resumen-item-pct{color:var(--muted);flex:0 0 auto;}
-  .resumen-tabs{display:flex;gap:6px;margin-bottom:10px;}
+  .resumen-tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;}
   .resumen-tab{padding:5px 11px;border-radius:8px;border:1px solid var(--border);background:var(--panel2);
        cursor:pointer;font-size:12px;color:var(--muted);}
   .resumen-tab.active{background:var(--accent);color:white;border-color:var(--accent);}
@@ -140,6 +140,7 @@ const CRIT_COLOR_VAR = {
   "Normativa": "var(--crit-normativa)", "Alta": "var(--crit-alta)",
   "Media": "var(--crit-media)", "Baja": "var(--crit-baja)", "Sin definir": "var(--muted)",
 };
+const RESP_PALETTE = ["var(--accent)", "var(--good)", "var(--warn)", "var(--crit-normativa)", "var(--bad)", "#38bdf8", "#eab308"];
 
 function ResumenEjecutivo({data}){
   const [abierto, setAbierto] = useState(null);
@@ -153,11 +154,16 @@ function ResumenEjecutivo({data}){
   ];
   const gruposCriticidad = [...data.criticidades, "Sin definir"]
     .map(c => ({key:c, label:c, color:CRIT_COLOR_VAR[c]}));
+  const gruposResponsable = [
+    ...data.responsables.map((r,i) => ({key:r, label:r, color:RESP_PALETTE[i % RESP_PALETTE.length]})),
+    {key:"Sin asignar", label:"Sin asignar", color:"var(--idle)"},
+  ];
 
-  const grupos = vista === "estado" ? gruposEstado : gruposCriticidad;
-  const itemsDe = (g) => (vista === "estado"
-    ? data.tareas.filter(t=>t.estado===g.key)
-    : data.tareas.filter(t=>(t.criticidad || "Sin definir")===g.key)
+  const grupos = vista === "estado" ? gruposEstado : vista === "criticidad" ? gruposCriticidad : gruposResponsable;
+  const itemsDe = (g) => (
+    vista === "estado" ? data.tareas.filter(t=>t.estado===g.key)
+    : vista === "criticidad" ? data.tareas.filter(t=>(t.criticidad || "Sin definir")===g.key)
+    : data.tareas.filter(t=>(t.responsable || "Sin asignar")===g.key)
   ).sort((a,b)=>(a.fecha_inicio_plan||"").localeCompare(b.fecha_inicio_plan||""));
 
   return (
@@ -175,6 +181,7 @@ function ResumenEjecutivo({data}){
       <div className="resumen-tabs">
         <div className={"resumen-tab" + (vista==="estado"?" active":"")} onClick={()=>{setVista("estado"); setAbierto(null);}}>Por estado</div>
         <div className={"resumen-tab" + (vista==="criticidad"?" active":"")} onClick={()=>{setVista("criticidad"); setAbierto(null);}}>Por criticidad</div>
+        <div className={"resumen-tab" + (vista==="responsable"?" active":"")} onClick={()=>{setVista("responsable"); setAbierto(null);}}>Por responsable</div>
       </div>
 
       <div className="resumen-listas">

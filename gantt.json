@@ -1,0 +1,278 @@
+{
+  "meta": {
+    "proyecto": "Minera RA — Inicio de Proyecto",
+    "fecha_inicio_proyecto": "2026-08-24",
+    "fuente": "Plan inicio proyecto.xlsx"
+  },
+  "responsables": [
+    "C. Migueles",
+    "R. Fehlandt",
+    "F. Gopfert",
+    "P. Alvarez",
+    "Mandante",
+    "Supervisor",
+    "Jefe Turno"
+  ],
+  "tareas": [
+    {
+      "id": "act-01",
+      "actividad": "Actividad 01",
+      "fecha_inicio_plan": "2026-08-24",
+      "duracion_plan": 5,
+      "fecha_inicio_real": "2026-08-24",
+      "duracion_real": 4,
+      "responsable": "",
+      "porcentaje": 0.25
+    },
+    {
+      "id": "act-02",
+      "actividad": "Actividad 02",
+      "fecha_inicio_plan": "2026-08-24",
+      "duracion_plan": 6,
+      "fecha_inicio_real": "2026-08-24",
+      "duracion_real": 6,
+      "responsable": "",
+      "porcentaje": 1.0
+    },
+    {
+      "id": "act-03",
+      "actividad": "Actividad 03",
+      "fecha_inicio_plan": "2026-08-25",
+      "duracion_plan": 4,
+      "fecha_inicio_real": "2026-08-25",
+      "duracion_real": 5,
+      "responsable": "",
+      "porcentaje": 0.35
+    },
+    {
+      "id": "act-04",
+      "actividad": "Actividad 04",
+      "fecha_inicio_plan": "2026-08-27",
+      "duracion_plan": 8,
+      "fecha_inicio_real": "2026-08-27",
+      "duracion_real": 6,
+      "responsable": "",
+      "porcentaje": 0.1
+    },
+    {
+      "id": "act-05",
+      "actividad": "Actividad 05",
+      "fecha_inicio_plan": "2026-08-27",
+      "duracion_plan": 2,
+      "fecha_inicio_real": "2026-08-27",
+      "duracion_real": 8,
+      "responsable": "",
+      "porcentaje": 0.85
+    },
+    {
+      "id": "act-06",
+      "actividad": "Actividad 06",
+      "fecha_inicio_plan": "2026-08-27",
+      "duracion_plan": 3,
+      "fecha_inicio_real": "2026-08-27",
+      "duracion_real": 6,
+      "responsable": "",
+      "porcentaje": 0.85
+    },
+    {
+      "id": "act-07",
+      "actividad": "Actividad 07",
+      "fecha_inicio_plan": "2026-08-28",
+      "duracion_plan": 4,
+      "fecha_inicio_real": "2026-08-28",
+      "duracion_real": 3,
+      "responsable": "",
+      "porcentaje": 0.5
+    },
+    {
+      "id": "act-08",
+      "actividad": "Actividad 08",
+      "fecha_inicio_plan": "2026-08-28",
+      "duracion_plan": 2,
+      "fecha_inicio_real": "2026-08-28",
+      "duracion_real": 5,
+      "responsable": "",
+      "porcentaje": 0.6
+    },
+    {
+      "id": "act-09",
+      "actividad": "Actividad 09",
+      "fecha_inicio_plan": "2026-08-28",
+      "duracion_plan": 2,
+      "fecha_inicio_real": "2026-08-28",
+      "duracion_real": 6,
+      "responsable": "",
+      "porcentaje": 0.75
+    },
+    {
+      "id": "act-10",
+      "actividad": "Actividad 10",
+      "fecha_inicio_plan": "2026-08-29",
+      "duracion_plan": 5,
+      "fecha_inicio_real": "2026-08-29",
+      "duracion_real": 7,
+      "responsable": "",
+      "porcentaje": 1.0
+    },
+    {
+      "id": "act-11",
+      "actividad": "Actividad 11",
+      "fecha_inicio_plan": "2026-08-29",
+      "duracion_plan": 1,
+      "fecha_inicio_real": "2026-08-28",
+      "duracion_real": 8,
+      "responsable": "",
+      "porcentaje": 0.6
+    },
+    {
+      "id": "act-12",
+      "actividad": "Actividad 12",
+      "fecha_inicio_plan": "2026-09-01",
+      "duracion_plan": 3,
+      "fecha_inicio_real": "2026-09-01",
+      "duracion_real": 3,
+      "responsable": "",
+      "porcentaje": 1.0
+    },
+    {
+      "id": "act-13",
+      "actividad": "Actividad 13",
+      "fecha_inicio_plan": "2026-09-01",
+      "duracion_plan": 6,
+      "fecha_inicio_real": "2026-09-01",
+      "duracion_real": 7,
+      "responsable": "",
+      "porcentaje": 0.5
+    },
+    {
+      "id": "act-14",
+      "actividad": "Actividad 14",
+      "fecha_inicio_plan": "2026-09-01",
+      "duracion_plan": 3,
+      "fecha_inicio_real": "2026-09-01",
+      "duracion_real": 1,
+      "responsable": "",
+      "porcentaje": 0.0
+    },
+    {
+      "id": "act-15",
+      "actividad": "Actividad 15",
+      "fecha_inicio_plan": "2026-09-01",
+      "duracion_plan": 4,
+      "fecha_inicio_real": "2026-08-31",
+      "duracion_real": 5,
+      "responsable": "",
+      "porcentaje": 1.0
+    },
+    {
+      "id": "act-16",
+      "actividad": "Actividad 16",
+      "fecha_inicio_plan": "2026-09-02",
+      "duracion_plan": 5,
+      "fecha_inicio_real": "2026-09-02",
+      "duracion_real": 3,
+      "responsable": "",
+      "porcentaje": 0.8
+    },
+    {
+      "id": "act-17",
+      "actividad": "Actividad 17",
+      "fecha_inicio_plan": "2026-09-03",
+      "duracion_plan": 2,
+      "fecha_inicio_real": "2026-09-03",
+      "duracion_real": 5,
+      "responsable": "",
+      "porcentaje": 0.0
+    },
+    {
+      "id": "act-18",
+      "actividad": "Actividad 18",
+      "fecha_inicio_plan": "2026-09-04",
+      "duracion_plan": 6,
+      "fecha_inicio_real": "2026-09-04",
+      "duracion_real": 7,
+      "responsable": "",
+      "porcentaje": 0.0
+    },
+    {
+      "id": "act-19",
+      "actividad": "Actividad 19",
+      "fecha_inicio_plan": "2026-09-04",
+      "duracion_plan": 1,
+      "fecha_inicio_real": "2026-09-04",
+      "duracion_real": 5,
+      "responsable": "",
+      "porcentaje": 0.0
+    },
+    {
+      "id": "act-20",
+      "actividad": "Actividad 20",
+      "fecha_inicio_plan": "2026-09-06",
+      "duracion_plan": 5,
+      "fecha_inicio_real": "2026-09-06",
+      "duracion_real": 6,
+      "responsable": "",
+      "porcentaje": 0.0
+    },
+    {
+      "id": "act-21",
+      "actividad": "Actividad 21",
+      "fecha_inicio_plan": "2026-09-06",
+      "duracion_plan": 8,
+      "fecha_inicio_real": "2026-09-06",
+      "duracion_real": 2,
+      "responsable": "",
+      "porcentaje": 0.44
+    },
+    {
+      "id": "act-22",
+      "actividad": "Actividad 22",
+      "fecha_inicio_plan": "2026-09-06",
+      "duracion_plan": 7,
+      "fecha_inicio_real": "2026-09-06",
+      "duracion_real": 3,
+      "responsable": "",
+      "porcentaje": 0.0
+    },
+    {
+      "id": "act-23",
+      "actividad": "Actividad 23",
+      "fecha_inicio_plan": "2026-09-07",
+      "duracion_plan": 4,
+      "fecha_inicio_real": "2026-09-07",
+      "duracion_real": 8,
+      "responsable": "",
+      "porcentaje": 0.12
+    },
+    {
+      "id": "act-24",
+      "actividad": "Actividad 24",
+      "fecha_inicio_plan": "2026-09-07",
+      "duracion_plan": 5,
+      "fecha_inicio_real": "2026-09-07",
+      "duracion_real": 3,
+      "responsable": "",
+      "porcentaje": 0.05
+    },
+    {
+      "id": "act-25",
+      "actividad": "Actividad 25",
+      "fecha_inicio_plan": "2026-09-07",
+      "duracion_plan": 8,
+      "fecha_inicio_real": "2026-09-07",
+      "duracion_real": 5,
+      "responsable": "",
+      "porcentaje": 0.0
+    },
+    {
+      "id": "act-26",
+      "actividad": "Actividad 26",
+      "fecha_inicio_plan": "2026-09-08",
+      "duracion_plan": 28,
+      "fecha_inicio_real": "2026-09-08",
+      "duracion_real": 30,
+      "responsable": "",
+      "porcentaje": 0.5
+    }
+  ]
+}

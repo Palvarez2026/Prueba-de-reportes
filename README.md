@@ -14,10 +14,13 @@ backend/
   data.json           # datos del EERR mensual (Presupuesto Jun-Dic 2026, Real hasta Agosto)
   ingreso_diario.json # datos diarios cargados por operadores (seed con Ago 2026)
   requirements.txt
+  gantt.py             # logica de la Carta Gantt (estado: a tiempo / atrasada / completada)
+  gantt.json            # datos de la Carta Gantt (convertidos desde Plan_inicio_proyecto.xlsx)
   static/
     index.html           # dashboard EERR (React via CDN)
     ingreso_diario.html  # formulario para que operadores carguen datos del dia
     resumen_diario.html  # resumen presup vs real del dia + avance mes/semana
+    gantt.html            # Carta Gantt movil: ver y editar avance de tareas desde el celular
 frontend/
   index.html        # copia identica del dashboard EERR, por si prefieres correrlo como servicio aparte
 ```
@@ -59,6 +62,13 @@ Ver la guia de despliegue que te dio Claude en el chat (Render, gratis). En resu
 - `GET /api/eerr` — estado de resultados completo.
 - `POST /api/eerr/real` — actualiza el Real de una linea/mes. Body: `{"line": "...", "month": "Ago", "value": 12345}`.
 - `GET /api/eerr/lineas` — catalogo de lineas disponibles.
+- `GET /api/gantt` — carta Gantt completa (tareas + resumen + estado calculado).
+- `POST /api/gantt/tarea` — crea (sin `id`) o actualiza (con `id`) una actividad.
+- `DELETE /api/gantt/tarea/{id}` — elimina una actividad.
+
+La Carta Gantt asume que el "dia 1" del plan del Excel original corresponde al
+**24 de agosto de 2026**. Si esa fecha no es correcta, edita
+`backend/gantt.json` -> `meta.fecha_inicio_proyecto` y las fechas de cada tarea.
 
 ## Siguientes pasos si esto se vuelve el modelo "real"
 

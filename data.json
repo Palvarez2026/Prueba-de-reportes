@@ -1,0 +1,660 @@
+{
+  "detail_lines": {
+    "venta_concentrado": {
+      "label": "4-1-01  Venta Concentrado",
+      "category": "ingreso",
+      "months": {
+        "Jun": {
+          "presup": 0,
+          "real": 0
+        },
+        "Jul": {
+          "presup": 0,
+          "real": 0
+        },
+        "Ago": {
+          "presup": 819464,
+          "real": 843327.51
+        },
+        "Sep": {
+          "presup": 940382,
+          "real": null
+        },
+        "Oct": {
+          "presup": 1482494,
+          "real": null
+        },
+        "Nov": {
+          "presup": 1482494,
+          "real": null
+        },
+        "Dic": {
+          "presup": 1482494,
+          "real": null
+        }
+      }
+    },
+    "mo": {
+      "label": "3-1-01  Mano de Obra",
+      "category": "costo_mina",
+      "months": {
+        "Jun": {
+          "presup": 0,
+          "real": null
+        },
+        "Jul": {
+          "presup": 0,
+          "real": null
+        },
+        "Ago": {
+          "presup": 56821,
+          "real": 56821
+        },
+        "Sep": {
+          "presup": 65466,
+          "real": null
+        },
+        "Oct": {
+          "presup": 65466,
+          "real": null
+        },
+        "Nov": {
+          "presup": 65466,
+          "real": null
+        },
+        "Dic": {
+          "presup": 65466,
+          "real": null
+        }
+      }
+    },
+    "arriendo_equipos": {
+      "label": "3-1-02  Arriendo de Equipos",
+      "category": "costo_mina",
+      "months": {
+        "Jun": {
+          "presup": 0,
+          "real": null
+        },
+        "Jul": {
+          "presup": 0,
+          "real": null
+        },
+        "Ago": {
+          "presup": 49757,
+          "real": 51250
+        },
+        "Sep": {
+          "presup": 59828,
+          "real": null
+        },
+        "Oct": {
+          "presup": 66869,
+          "real": null
+        },
+        "Nov": {
+          "presup": 66869,
+          "real": null
+        },
+        "Dic": {
+          "presup": 66869,
+          "real": null
+        }
+      }
+    },
+    "mantencion_equipos": {
+      "label": "3-1-03  Mantención de Equipos",
+      "category": "costo_mina",
+      "months": {
+        "Jun": {
+          "presup": 0,
+          "real": null
+        },
+        "Jul": {
+          "presup": 0,
+          "real": null
+        },
+        "Ago": {
+          "presup": 35465,
+          "real": 36529
+        },
+        "Sep": {
+          "presup": 38905,
+          "real": null
+        },
+        "Oct": {
+          "presup": 48912,
+          "real": null
+        },
+        "Nov": {
+          "presup": 48912,
+          "real": null
+        },
+        "Dic": {
+          "presup": 48912,
+          "real": null
+        }
+      }
+    },
+    "combustible": {
+      "label": "3-1-04  Combustible / Petróleo",
+      "category": "costo_mina",
+      "months": {
+        "Jun": {
+          "presup": 0,
+          "real": null
+        },
+        "Jul": {
+          "presup": 0,
+          "real": null
+        },
+        "Ago": {
+          "presup": 31668,
+          "real": 32618
+        },
+        "Sep": {
+          "presup": 39765,
+          "real": null
+        },
+        "Oct": {
+          "presup": 55298,
+          "real": null
+        },
+        "Nov": {
+          "presup": 55298,
+          "real": null
+        },
+        "Dic": {
+          "presup": 55298,
+          "real": null
+        }
+      }
+    },
+    "explosivos": {
+      "label": "3-1-05  Explosivos y Tronadura",
+      "category": "costo_mina",
+      "months": {
+        "Jun": {
+          "presup": 0,
+          "real": null
+        },
+        "Jul": {
+          "presup": 0,
+          "real": null
+        },
+        "Ago": {
+          "presup": 32297,
+          "real": 32297
+        },
+        "Sep": {
+          "presup": 30877,
+          "real": null
+        },
+        "Oct": {
+          "presup": 32916,
+          "real": null
+        },
+        "Nov": {
+          "presup": 32916,
+          "real": null
+        },
+        "Dic": {
+          "presup": 32916,
+          "real": null
+        }
+      }
+    },
+    "aceros": {
+      "label": "3-1-06  Aceros de Perforación",
+      "category": "costo_mina",
+      "months": {
+        "Jun": {
+          "presup": 0,
+          "real": null
+        },
+        "Jul": {
+          "presup": 0,
+          "real": null
+        },
+        "Ago": {
+          "presup": 4445,
+          "real": 4578
+        },
+        "Sep": {
+          "presup": 5914,
+          "real": null
+        },
+        "Oct": {
+          "presup": 5332,
+          "real": null
+        },
+        "Nov": {
+          "presup": 5332,
+          "real": null
+        },
+        "Dic": {
+          "presup": 5332,
+          "real": null
+        }
+      }
+    },
+    "fortificacion": {
+      "label": "3-1-07  Fortificación",
+      "category": "costo_mina",
+      "months": {
+        "Jun": {
+          "presup": 0,
+          "real": null
+        },
+        "Jul": {
+          "presup": 0,
+          "real": null
+        },
+        "Ago": {
+          "presup": 4320,
+          "real": 4320
+        },
+        "Sep": {
+          "presup": 1833,
+          "real": null
+        },
+        "Oct": {
+          "presup": 682,
+          "real": null
+        },
+        "Nov": {
+          "presup": 682,
+          "real": null
+        },
+        "Dic": {
+          "presup": 682,
+          "real": null
+        }
+      }
+    },
+    "servicios_mina": {
+      "label": "3-1-08  Servicios Mina",
+      "category": "costo_mina",
+      "months": {
+        "Jun": {
+          "presup": 0,
+          "real": null
+        },
+        "Jul": {
+          "presup": 0,
+          "real": null
+        },
+        "Ago": {
+          "presup": 2663,
+          "real": 2743
+        },
+        "Sep": {
+          "presup": 2963,
+          "real": null
+        },
+        "Oct": {
+          "presup": 4700,
+          "real": null
+        },
+        "Nov": {
+          "presup": 4700,
+          "real": null
+        },
+        "Dic": {
+          "presup": 4700,
+          "real": null
+        }
+      }
+    },
+    "procesamiento_planta": {
+      "label": "3-2-01  Procesamiento y Planta",
+      "category": "planta_oh",
+      "months": {
+        "Jun": {
+          "presup": 0,
+          "real": null
+        },
+        "Jul": {
+          "presup": 0,
+          "real": null
+        },
+        "Ago": {
+          "presup": 202586,
+          "real": 208500
+        },
+        "Sep": {
+          "presup": 232479,
+          "real": null
+        },
+        "Oct": {
+          "presup": 366498,
+          "real": null
+        },
+        "Nov": {
+          "presup": 366498,
+          "real": null
+        },
+        "Dic": {
+          "presup": 366498,
+          "real": null
+        }
+      }
+    },
+    "admin_overhead": {
+      "label": "3-3-01  Administración y Overhead",
+      "category": "planta_oh",
+      "months": {
+        "Jun": {
+          "presup": 0,
+          "real": null
+        },
+        "Jul": {
+          "presup": 0,
+          "real": null
+        },
+        "Ago": {
+          "presup": 16000,
+          "real": 16000
+        },
+        "Sep": {
+          "presup": 16000,
+          "real": null
+        },
+        "Oct": {
+          "presup": 16000,
+          "real": null
+        },
+        "Nov": {
+          "presup": 16000,
+          "real": null
+        },
+        "Dic": {
+          "presup": 16000,
+          "real": null
+        }
+      }
+    },
+    "da_participacion": {
+      "label": "3-4-01  D&A + Participación Mina RA (⚠️ pendiente)",
+      "category": "da",
+      "months": {
+        "Jun": {
+          "presup": 0,
+          "real": null
+        },
+        "Jul": {
+          "presup": 0,
+          "real": null
+        },
+        "Ago": {
+          "presup": 6000,
+          "real": 6000
+        },
+        "Sep": {
+          "presup": 6000,
+          "real": null
+        },
+        "Oct": {
+          "presup": 6000,
+          "real": null
+        },
+        "Nov": {
+          "presup": 6000,
+          "real": null
+        },
+        "Dic": {
+          "presup": 6000,
+          "real": null
+        }
+      }
+    },
+    "intereses": {
+      "label": "4-1  Intereses y Gastos Financieros",
+      "category": "financiero",
+      "months": {
+        "Jun": {
+          "presup": 0,
+          "real": null
+        },
+        "Jul": {
+          "presup": 0,
+          "real": null
+        },
+        "Ago": {
+          "presup": 1000,
+          "real": 1000
+        },
+        "Sep": {
+          "presup": 1000,
+          "real": null
+        },
+        "Oct": {
+          "presup": 1000,
+          "real": null
+        },
+        "Nov": {
+          "presup": 1000,
+          "real": null
+        },
+        "Dic": {
+          "presup": 1000,
+          "real": null
+        }
+      }
+    }
+  },
+  "kpi_lines": {
+    "headcount": {
+      "label": "Total Headcount",
+      "category": "produccion",
+      "months": {
+        "Jun": {
+          "presup": 0,
+          "real": null
+        },
+        "Jul": {
+          "presup": 0,
+          "real": null
+        },
+        "Ago": {
+          "presup": 17,
+          "real": null
+        },
+        "Sep": {
+          "presup": 17,
+          "real": null
+        },
+        "Oct": {
+          "presup": 17,
+          "real": null
+        },
+        "Nov": {
+          "presup": 17,
+          "real": null
+        },
+        "Dic": {
+          "presup": 17,
+          "real": null
+        }
+      }
+    },
+    "disparos_np": {
+      "label": "Disparos NP (N°)",
+      "category": "produccion",
+      "months": {
+        "Jun": {
+          "presup": 0,
+          "real": 0
+        },
+        "Jul": {
+          "presup": 0,
+          "real": 0
+        },
+        "Ago": {
+          "presup": 33,
+          "real": 34
+        },
+        "Sep": {
+          "presup": 23,
+          "real": null
+        },
+        "Oct": {
+          "presup": 35,
+          "real": null
+        },
+        "Nov": {
+          "presup": 35,
+          "real": null
+        },
+        "Dic": {
+          "presup": 35,
+          "real": null
+        }
+      }
+    },
+    "disparos_bancos": {
+      "label": "Disparos Bancos (N°)",
+      "category": "produccion",
+      "months": {
+        "Jun": {
+          "presup": 0,
+          "real": 0
+        },
+        "Jul": {
+          "presup": 0,
+          "real": 0
+        },
+        "Ago": {
+          "presup": 0,
+          "real": 0
+        },
+        "Sep": {
+          "presup": 1,
+          "real": null
+        },
+        "Oct": {
+          "presup": 2,
+          "real": null
+        },
+        "Nov": {
+          "presup": 2,
+          "real": null
+        },
+        "Dic": {
+          "presup": 2,
+          "real": null
+        }
+      }
+    },
+    "produccion_bruta": {
+      "label": "Producción Bruta (ton)",
+      "category": "produccion",
+      "months": {
+        "Jun": {
+          "presup": 0,
+          "real": 0
+        },
+        "Jul": {
+          "presup": 0,
+          "real": 0
+        },
+        "Ago": {
+          "presup": 7335,
+          "real": 7555
+        },
+        "Sep": {
+          "presup": 8417,
+          "real": null
+        },
+        "Oct": {
+          "presup": 13269,
+          "real": null
+        },
+        "Nov": {
+          "presup": 13269,
+          "real": null
+        },
+        "Dic": {
+          "presup": 13269,
+          "real": null
+        }
+      }
+    },
+    "mineral_seleccionado": {
+      "label": "Mineral Seleccionado (ton)",
+      "category": "produccion",
+      "months": {
+        "Jun": {
+          "presup": 0,
+          "real": 0
+        },
+        "Jul": {
+          "presup": 0,
+          "real": 0
+        },
+        "Ago": {
+          "presup": 5868,
+          "real": 6044
+        },
+        "Sep": {
+          "presup": 6734,
+          "real": null
+        },
+        "Oct": {
+          "presup": 10615,
+          "real": null
+        },
+        "Nov": {
+          "presup": 10615,
+          "real": null
+        },
+        "Dic": {
+          "presup": 10615,
+          "real": null
+        }
+      }
+    },
+    "concentrado": {
+      "label": "Concentrado (ton)",
+      "category": "produccion",
+      "months": {
+        "Jun": {
+          "presup": 0,
+          "real": 0
+        },
+        "Jul": {
+          "presup": 0,
+          "real": 0
+        },
+        "Ago": {
+          "presup": 182,
+          "real": 187.3
+        },
+        "Sep": {
+          "presup": 209,
+          "real": null
+        },
+        "Oct": {
+          "presup": 329,
+          "real": null
+        },
+        "Nov": {
+          "presup": 329,
+          "real": null
+        },
+        "Dic": {
+          "presup": 329,
+          "real": null
+        }
+      }
+    }
+  },
+  "tax_rate": 0.27,
+  "meta": {
+    "mina": "Mina RA",
+    "moneda": "CLP",
+    "tipo_cambio": "923.18 CLP/USD",
+    "periodo": "Ago 2026 - Dic 2026",
+    "fuente": "EERR2_v4_Ago2026 UV_corregido.xlsx"
+  }
+}

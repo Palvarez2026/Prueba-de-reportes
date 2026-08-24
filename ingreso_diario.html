@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Ingreso Diario — Mina RA</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
+<style>
+  :root{
+    --bg:#0f172a; --panel:#111827; --border:#263244;
+    --text:#e5e9f0; --muted:#8b96a8; --accent:#3b82f6; --good:#22c55e; --bad:#ef4444;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);}
+  #root{max-width:900px;margin:0 auto;padding:24px;}
+  h1{font-size:22px;margin:0 0 2px 0;}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px;}
+  .panel{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:20px;}
+  .panel h2{font-size:15px;margin:0 0 12px 0;}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;}
+  label{display:block;font-size:12px;color:var(--muted);margin-bottom:4px;}
+  input, textarea{width:100%;background:#0b1220;border:1px solid var(--border);color:var(--text);
+       border-radius:6px;padding:7px 9px;font-size:13px;font-family:inherit;}
+  input:focus, textarea:focus{outline:1px solid var(--accent);}
+  .field{margin-bottom:12px;}
+  button{background:var(--accent);color:white;border:none;border-radius:8px;padding:9px 18px;
+       font-size:13px;cursor:pointer;}
+  button:hover{opacity:.9;}
+  .msg{font-size:13px;margin-top:10px;}
+  .msg.ok{color:var(--good);} .msg.err{color:var(--bad);}
+  table{width:100%;border-collapse:collapse;font-size:12px;}
+  th,td{padding:6px 7px;text-align:right;border-bottom:1px solid var(--border);white-space:nowrap;}
+  th:first-child,td:first-child{text-align:left;}
+  thead th{color:var(--muted);font-weight:500;font-size:10px;text-transform:uppercase;}
+  .table-wrap{overflow-x:auto;}
+  .novedades-cell{max-width:220px;white-space:normal;text-align:left;color:var(--muted);}
+</style>
+</head>
+<body>
+<div style="display:flex;gap:8px;max-width:900px;margin:0 auto;padding:16px 24px 0;">
+  <a href="/" style="padding:6px 12px;border-radius:8px;background:#111827;border:1px solid #263244;color:#8b96a8;text-decoration:none;font-size:13px;">Estado de Resultados</a>
+  <a href="/ingreso_diario.html" style="padding:6px 12px;border-radius:8px;background:#3b82f6;color:white;text-decoration:none;font-size:13px;">Ingreso Diario</a>
+  <a href="/resumen_diario.html" style="padding:6px 12px;border-radius:8px;background:#111827;border:1px solid #263244;color:#8b96a8;text-decoration:none;font-size:13px;">Resumen Diario</a>
+  <a href="/gantt.html" style="padding:6px 12px;border-radius:8px;background:#111827;border:1px solid #263244;color:#8b96a8;text-decoration:none;font-size:13px;">Carta Gantt</a>
+</div>
+<div id="root">Cargando…</div>
+<script type="text/babel" data-presets="react">
+const { useState, useEffect } = React;
+const API_BASE = window.EERR_API_BASE || "";
+
+const FIELDS = [
+  {key:"disparos_np", label:"Disparos NP (N°)", group:"Producción"},
+  {key:"disparos_des", label:"Disparos Desarrollo (N°)", group:"Producción"},
+  {key:"disparos_banco", label:"Disparos Banco (N°)", group:"Producción"},
+  {key:"ton_bruta", label:"Ton Bruta (ton)", group:"Producción"},
+  {key:"ton_selec", label:"Ton Seleccionado (ton)", group:"Producción"},
+  {key:"concentrado", label:"Concentrado (ton)", group:"Producción"},
+  {key:"mtrs_np", label:"Metros Perforados NP", group:"Perforación"},
+  {key:"mtrs_banco", label:"Metros Perforados Banco", group:"Perforación"},
+  {key:"anfo", label:"ANFO consumido (kg)", group:"Insumos"},
+  {key:"detonadores", label:"Detonadores (unid)", group:"Insumos"},
+  {key:"combustible", label:"Combustible (L)", group:"Insumos"},
+  {key:"horas_equipos", label:"Horas Equipos", group:"Control"},
+  {key:"personal", label:"Personal Presente", group:"Control"},
+  {key:"disp_equipo", label:"Disponibilidad Equipos (0-1)", group:"Control"},
+];
+
+function todayISO(){
+  const d = new Date();
+  return d.toISOString().slice(0,10);
+}
+
+function App(){
+  const [fecha, setFecha] = useState(todayISO());
+  const [form, setForm] = useState({});
+  const [novedades, setNovedades] = useState("");
+  const [msg, setMsg] = useState(null);
+  const [historial, setHistorial] = useState({});
+
+  const loadHistorial = () => {
+    fetch(API_BASE + "/api/ingreso-diario")
+      .then(r => r.json())
+      .then(d => setHistorial(d))
+      .catch(() => {});
+  };
+
+  useEffect(() => { loadHistorial(); }, []);
+
+  useEffect(() => {
+    const rec = historial[fecha] || {};
+    const f = {};
+    FIELDS.forEach(fld => { f[fld.key] = rec[fld.key] ?? ""; });
+    setForm(f);
+    setNovedades(rec.novedades || "");
+  }, [fecha, historial]);
+
+  const guardar = () => {
+    const body = { fecha };
+    FIELDS.forEach(fld => {
+      if (form[fld.key] !== "" && form[fld.key] !== undefined) body[fld.key] = Number(form[fld.key]);
+    });
+    if (novedades) body.novedades = novedades;
+    fetch(API_BASE + "/api/ingreso-diario", {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify(body)
+    })
+      .then(r => { if(!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+      .then(() => { setMsg({type:"ok", text:"Guardado " + fecha}); loadHistorial(); })
+      .catch(e => setMsg({type:"err", text:"Error: " + e.message}));
+  };
+
+  const groups = [...new Set(FIELDS.map(f=>f.group))];
+  const fechas = Object.keys(historial).sort().reverse().slice(0, 15);
+
+  return (
+    <div>
+      <h1>📋 Ingreso Diario — Mina RA</h1>
+      <div className="sub">Carga los datos de operación del día. Los operadores pueden completar esto al cierre de cada turno.</div>
+
+      <div className="panel">
+        <div className="field" style={{maxWidth:220}}>
+          <label>Fecha</label>
+          <input type="date" value={fecha} onChange={e=>setFecha(e.target.value)} />
+        </div>
+
+        {groups.map(g => (
+          <div key={g} style={{marginTop:16}}>
+            <div style={{fontSize:11,color:"var(--muted)",textTransform:"uppercase",marginBottom:8}}>{g}</div>
+            <div className="grid">
+              {FIELDS.filter(f=>f.group===g).map(fld => (
+                <div className="field" key={fld.key}>
+                  <label>{fld.label}</label>
+                  <input type="number" step="any" value={form[fld.key] ?? ""}
+                    onChange={e=>setForm({...form, [fld.key]: e.target.value})} placeholder="—" />
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+
+        <div className="field" style={{marginTop:16}}>
+          <label>Novedades / Observaciones</label>
+          <textarea rows="2" value={novedades} onChange={e=>setNovedades(e.target.value)} placeholder="Ej: parada de equipo, condiciones climáticas, incidentes..." />
+        </div>
+
+        <button onClick={guardar}>Guardar día</button>
+        {msg && <div className={"msg " + msg.type}>{msg.text}</div>}
+      </div>
+
+      <div className="panel">
+        <h2>Últimos días cargados</h2>
+        <div className="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Fecha</th><th>Disp.NP</th><th>Ton Bruta</th><th>Ton Selec.</th><th>Conc.</th>
+                <th>ANFO</th><th>Combust.</th><th>Personal</th><th>Novedades</th>
+              </tr>
+            </thead>
+            <tbody>
+              {fechas.map(f => {
+                const r = historial[f];
+                return (
+                  <tr key={f} style={{cursor:"pointer"}} onClick={()=>setFecha(f)}>
+                    <td>{f}</td><td>{r.disparos_np ?? "—"}</td><td>{r.ton_bruta ?? "—"}</td>
+                    <td>{r.ton_selec ?? "—"}</td><td>{r.concentrado ?? "—"}</td>
+                    <td>{r.anfo ?? "—"}</td><td>{r.combustible ?? "—"}</td><td>{r.personal ?? "—"}</td>
+                    <td className="novedades-cell">{r.novedades || ""}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

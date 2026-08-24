@@ -40,6 +40,7 @@ class GanttTarea(BaseModel):
     fecha_inicio_real: Optional[str] = None
     duracion_real: Optional[int] = None
     responsable: Optional[str] = None
+    criticidad: Optional[str] = None
     porcentaje: Optional[float] = None
 
 

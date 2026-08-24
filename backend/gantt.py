@@ -12,6 +12,8 @@ from pathlib import Path
 
 GANTT_PATH = Path(__file__).parent / "gantt.json"
 
+CRITICIDADES = ["Normativa", "Alta", "Media", "Baja"]
+
 
 def load_state():
     with open(GANTT_PATH, encoding="utf-8") as f:
@@ -82,14 +84,22 @@ def compute_gantt(state, hoy=None):
     no_iniciadas = sum(1 for t in result_tareas if t["estado"] == "no_iniciada")
     avance_prom = round(sum(t.get("porcentaje") or 0 for t in result_tareas) / total, 4) if total else 0
 
+    por_criticidad = {c: 0 for c in CRITICIDADES}
+    por_criticidad["Sin definir"] = 0
+    for t in result_tareas:
+        c = t.get("criticidad") or "Sin definir"
+        por_criticidad[c] = por_criticidad.get(c, 0) + 1
+
     return {
         "meta": state["meta"],
         "responsables": state["responsables"],
+        "criticidades": CRITICIDADES,
         "hoy": hoy.isoformat(),
         "rango": {"inicio": rango_inicio.isoformat(), "fin": rango_fin.isoformat(), "dias_totales": dias_totales},
         "resumen": {
             "total": total, "completadas": completadas, "atrasadas": atrasadas,
             "en_curso": en_curso, "no_iniciadas": no_iniciadas, "avance_promedio": avance_prom,
+            "por_criticidad": por_criticidad,
         },
         "tareas": result_tareas,
     }
@@ -99,10 +109,12 @@ def upsert_tarea(state, tarea_in):
     tareas = state["tareas"]
     tid = tarea_in.get("id")
 
+    CAMPOS_ANULABLES = ("responsable", "criticidad")
+
     if tid:
         for i, t in enumerate(tareas):
             if t["id"] == tid:
-                tareas[i] = {**t, **{k: v for k, v in tarea_in.items() if v is not None or k == "responsable"}}
+                tareas[i] = {**t, **{k: v for k, v in tarea_in.items() if v is not None or k in CAMPOS_ANULABLES}}
                 return tareas[i]
         raise KeyError(f"Tarea desconocida: {tid}")
 
@@ -116,6 +128,7 @@ def upsert_tarea(state, tarea_in):
         "fecha_inicio_real": tarea_in.get("fecha_inicio_real"),
         "duracion_real": tarea_in.get("duracion_real"),
         "responsable": tarea_in.get("responsable", ""),
+        "criticidad": tarea_in.get("criticidad") or None,
         "porcentaje": tarea_in.get("porcentaje", 0.0),
     }
     tareas.append(nueva)

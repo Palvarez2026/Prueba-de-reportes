@@ -109,6 +109,34 @@
   .save-msg{font-size:11.5px;color:var(--good);margin-left:6px;}
   .footer{color:var(--muted);font-size:11.5px;text-align:center;margin-top:20px;}
   .empty{color:var(--muted);font-size:13px;text-align:center;padding:20px 0;}
+
+  .view-toggle{display:flex;gap:6px;margin-bottom:14px;}
+  .view-toggle button{padding:7px 14px;border-radius:8px;border:1px solid var(--border);background:var(--panel);
+       cursor:pointer;font-size:12.5px;color:var(--muted);font-family:inherit;}
+  .view-toggle button.active{background:var(--accent);color:white;border-color:var(--accent);}
+
+  .gantt-chart-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:10px;background:var(--panel);
+       margin-bottom:14px;-webkit-overflow-scrolling:touch;}
+  .gantt-row{display:flex;border-top:1px solid var(--border);}
+  .gantt-row:first-child{border-top:none;}
+  .gantt-row.clickable{cursor:pointer;}
+  .gantt-row.clickable:hover .gantt-track{background:rgba(59,130,246,.06);}
+  .gantt-row.highlight .gantt-label{color:var(--accent);}
+  .gantt-label{flex:0 0 auto;position:sticky;left:0;z-index:2;background:var(--panel);
+       padding:8px 8px;font-size:11.5px;font-weight:500;white-space:nowrap;overflow:hidden;
+       text-overflow:ellipsis;border-right:1px solid var(--border);display:flex;align-items:center;}
+  .gantt-corner{flex:0 0 auto;position:sticky;left:0;z-index:3;background:var(--panel);
+       border-right:1px solid var(--border);}
+  .gantt-month{flex:0 0 auto;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;
+       text-align:center;padding:5px 0;border-left:1px solid var(--border);}
+  .gantt-day{flex:0 0 auto;font-size:10px;color:var(--muted);text-align:center;padding:4px 0;
+       border-right:1px solid rgba(255,255,255,.03);}
+  .gantt-day.today{background:rgba(59,130,246,.18);color:var(--text);font-weight:700;border-radius:4px 4px 0 0;}
+  .gantt-track{flex:0 0 auto;position:relative;}
+  .gantt-bar-plan{position:absolute;top:6px;height:8px;border-radius:3px;border:1.5px solid var(--idle);
+       background:transparent;}
+  .gantt-bar-real{position:absolute;bottom:6px;height:8px;border-radius:3px;}
+  .gantt-header-corner-label{font-size:10px;color:var(--muted);padding:8px 8px;}
 </style>
 </head>
 <body>
@@ -224,6 +252,73 @@ function ResumenEjecutivo({data, onJump}){
 
 function diffDays(a, b){
   return Math.round((new Date(b) - new Date(a)) / 86400000);
+}
+
+const MESES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+const DAY_W = 24;
+const LABEL_W = 130;
+
+function addDaysToISO(iso, n){
+  const d = new Date(iso + "T00:00:00");
+  d.setDate(d.getDate() + n);
+  return d;
+}
+
+function GanttChart({tareas, rango, hoy, onJump, resaltada}){
+  const totalDias = rango.dias_totales || 1;
+  const days = Array.from({length: totalDias}, (_, i) => addDaysToISO(rango.inicio, i));
+  const hoyDate = hoy;
+
+  const meses = [];
+  days.forEach(d => {
+    const key = d.getFullYear() + "-" + d.getMonth();
+    const last = meses[meses.length - 1];
+    if (last && last.key === key) last.count++;
+    else meses.push({key, label: MESES[d.getMonth()], count: 1});
+  });
+
+  const trackGrid = {
+    backgroundImage: `repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0, rgba(255,255,255,.035) 1px, transparent 1px, transparent ${DAY_W}px)`,
+  };
+
+  const barLeft = (iso) => Math.max(0, diffDays(rango.inicio, iso)) * DAY_W;
+  const barWidth = (dur) => Math.max(1, (dur || 1)) * DAY_W - 3;
+
+  return (
+    <div className="gantt-chart-wrap">
+      <div style={{width: LABEL_W + totalDias * DAY_W}}>
+        <div className="gantt-row">
+          <div className="gantt-corner" style={{width: LABEL_W}}>
+            <div className="gantt-header-corner-label">Actividad</div>
+          </div>
+          {meses.map((m, i) => (
+            <div key={i} className="gantt-month" style={{width: m.count * DAY_W}}>{m.label}</div>
+          ))}
+        </div>
+        <div className="gantt-row">
+          <div className="gantt-corner" style={{width: LABEL_W}}></div>
+          {days.map((d, i) => {
+            const iso = d.toISOString().slice(0,10);
+            return <div key={i} className={"gantt-day" + (iso===hoyDate ? " today" : "")} style={{width: DAY_W}}>{d.getDate()}</div>;
+          })}
+        </div>
+        {tareas.map(t => (
+          <div key={t.id} className={"gantt-row clickable" + (resaltada===t.id ? " highlight" : "")}
+               onClick={()=>onJump(t.id)} title={t.actividad}>
+            <div className="gantt-label" style={{width: LABEL_W}}>{t.actividad}</div>
+            <div className="gantt-track" style={{width: totalDias * DAY_W, ...trackGrid}}>
+              {t.fecha_inicio_plan && (
+                <div className="gantt-bar-plan" style={{left: barLeft(t.fecha_inicio_plan)+"px", width: barWidth(t.duracion_plan)+"px"}}></div>
+              )}
+              {t.fecha_inicio_real && (
+                <div className="gantt-bar-real" style={{left: barLeft(t.fecha_inicio_real)+"px", width: barWidth(t.duracion_real)+"px", background: ESTADO_COLOR[t.estado]}}></div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 function TaskCard({t, rango, hoy, responsables, criticidades, resaltada, onSave, onDelete}){
@@ -403,6 +498,7 @@ function App(){
   const [filtro, setFiltro] = useState("todas");
   const [showAdd, setShowAdd] = useState(false);
   const [resaltada, setResaltada] = useState(null);
+  const [vista, setVista] = useState("lista");
 
   const load = useCallback(() => {
     fetch(API_BASE + "/api/gantt")
@@ -421,7 +517,7 @@ function App(){
     return () => clearTimeout(timer);
   }, [resaltada, data]);
 
-  const jumpTo = (id) => { setFiltro("todas"); setResaltada(id); };
+  const jumpTo = (id) => { setVista("lista"); setFiltro("todas"); setResaltada(id); };
 
   const saveTarea = (tarea) => {
     return fetch(API_BASE + "/api/gantt/tarea", {
@@ -456,22 +552,39 @@ function App(){
 
       <ResumenEjecutivo data={data} onJump={jumpTo} />
 
+      <div className="view-toggle">
+        <button className={vista==="lista"?"active":""} onClick={()=>setVista("lista")}>📋 Lista</button>
+        <button className={vista==="grafico"?"active":""} onClick={()=>setVista("grafico")}>📊 Gráfico</button>
+      </div>
+
       <div className="filters">
         {FILTROS.map(f => (
           <div key={f.key} className={"filter" + (filtro===f.key?" active":"")} onClick={()=>setFiltro(f.key)}>{f.label}</div>
         ))}
       </div>
 
-      {!showAdd && <button className="add-toggle" onClick={()=>setShowAdd(true)}>+ Agregar actividad</button>}
-      {showAdd && <AddForm responsables={data.responsables} criticidades={data.criticidades} onAdd={addTarea} onClose={()=>setShowAdd(false)} />}
+      {vista === "grafico" && (
+        <GanttChart tareas={ordenadas} rango={data.rango} hoy={data.hoy} onJump={jumpTo} resaltada={resaltada} />
+      )}
 
-      {ordenadas.length === 0 && <div className="empty">No hay actividades en este filtro.</div>}
-      {ordenadas.map(t => (
-        <TaskCard key={t.id} t={t} rango={data.rango} hoy={data.hoy} resaltada={resaltada}
-          responsables={data.responsables} criticidades={data.criticidades} onSave={saveTarea} onDelete={deleteTarea} />
-      ))}
+      {vista === "lista" && (
+        <div>
+          {!showAdd && <button className="add-toggle" onClick={()=>setShowAdd(true)}>+ Agregar actividad</button>}
+          {showAdd && <AddForm responsables={data.responsables} criticidades={data.criticidades} onAdd={addTarea} onClose={()=>setShowAdd(false)} />}
 
-      <div className="footer">Línea gris = plan · barra de color = avance real · línea vertical = hoy</div>
+          {ordenadas.length === 0 && <div className="empty">No hay actividades en este filtro.</div>}
+          {ordenadas.map(t => (
+            <TaskCard key={t.id} t={t} rango={data.rango} hoy={data.hoy} resaltada={resaltada}
+              responsables={data.responsables} criticidades={data.criticidades} onSave={saveTarea} onDelete={deleteTarea} />
+          ))}
+        </div>
+      )}
+
+      <div className="footer">
+        {vista==="grafico"
+          ? "Toca una fila para ver el detalle · borde punteado = plan · barra de color = real · desliza para ver más fechas"
+          : "Línea gris = plan · barra de color = avance real · línea vertical = hoy"}
+      </div>
     </div>
   );
 }

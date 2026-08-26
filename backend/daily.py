@@ -64,6 +64,8 @@ def save_daily(data):
 
 
 def upsert_day(date_str, fields):
+    if _parse(date_str) > date_cls.today():
+        raise ValueError(f"No se pueden ingresar datos con fecha futura: {date_str}")
     data = load_daily()
     rec = data.get(date_str, {})
     rec.update(fields)

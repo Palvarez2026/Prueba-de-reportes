@@ -95,7 +95,10 @@ def get_ingreso_diario(desde: Optional[str] = None, hasta: Optional[str] = None)
 @app.post("/api/ingreso-diario")
 def post_ingreso_diario(entry: DailyEntry):
     fields = entry.model_dump(exclude={"fecha"}, exclude_none=True)
-    rec = daily.upsert_day(entry.fecha, fields)
+    try:
+        rec = daily.upsert_day(entry.fecha, fields)
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
     return {"fecha": entry.fecha, **rec}
 
 

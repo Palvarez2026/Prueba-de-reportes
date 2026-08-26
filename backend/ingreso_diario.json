@@ -27,7 +27,7 @@
     "horas_equipos": 21,
     "personal": 17,
     "disp_equipo": 0.95,
-    "novedades": "2 disparos NP turno A y C."
+    "novedades": "2 disparos turno A y C."
   },
   "2026-08-04": {
     "disparos_des": 0,
@@ -42,7 +42,7 @@
     "horas_equipos": 18,
     "personal": 17,
     "disp_equipo": 0.89,
-    "novedades": "2 disparos NP - operación normal."
+    "novedades": "2 disparos - operación normal."
   },
   "2026-08-05": {
     "disparos_des": 1,
@@ -72,7 +72,7 @@
     "horas_equipos": 20,
     "personal": 17,
     "disp_equipo": 0.93,
-    "novedades": "2 disparos NP - rendimiento sobre presupuesto."
+    "novedades": "2 disparos - rendimiento sobre presupuesto."
   },
   "2026-08-07": {
     "disparos_des": 1,
@@ -117,7 +117,7 @@
     "horas_equipos": 21,
     "personal": 17,
     "disp_equipo": 0.95,
-    "novedades": "2 disparos NP - buen avance semana."
+    "novedades": "2 disparos - buen avance semana."
   },
   "2026-08-11": {
     "disparos_des": 0,
@@ -147,7 +147,7 @@
     "horas_equipos": 19,
     "personal": 17,
     "disp_equipo": 0.92,
-    "novedades": "2 disparos NP - prod. acumulada sobre meta."
+    "novedades": "2 disparos - prod. acumulada sobre meta."
   },
   "2026-08-13": {
     "disparos_des": 0,
@@ -207,7 +207,7 @@
     "horas_equipos": 20,
     "personal": 17,
     "disp_equipo": 0.94,
-    "novedades": "2 disparos NP - recuperando ritmo post festivo."
+    "novedades": "2 disparos - recuperando ritmo post festivo."
   },
   "2026-08-18": {
     "disparos_des": 1,
@@ -252,7 +252,7 @@
     "horas_equipos": 21,
     "personal": 17,
     "disp_equipo": 0.95,
-    "novedades": "2 disparos NP."
+    "novedades": "2 disparos."
   },
   "2026-08-21": {
     "disparos_des": 0,
@@ -297,7 +297,7 @@
     "horas_equipos": 21,
     "personal": 17,
     "disp_equipo": 0.95,
-    "novedades": "2 disparos NP - 3ra semana sobre presupuesto."
+    "novedades": "2 disparos - 3ra semana sobre presupuesto."
   },
   "2026-08-25": {
     "disparos_des": 1,
@@ -327,6 +327,6 @@
     "horas_equipos": 21,
     "personal": 17,
     "disp_equipo": 0.95,
-    "novedades": "2 disparos NP."
+    "novedades": "2 disparos."
   }
 }

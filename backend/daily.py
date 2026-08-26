@@ -16,13 +16,11 @@ DAILY_PATH = Path(__file__).parent / "ingreso_diario.json"
 MONTH_MAP = {6: "Jun", 7: "Jul", 8: "Ago", 9: "Sep", 10: "Oct", 11: "Nov", 12: "Dic"}
 
 FIELD_LABELS = {
-    "disparos_np": "Disparos NP (N°)",
     "disparos_des": "Disparos Desarrollo (N°)",
     "disparos_banco": "Disparos Banco (N°)",
     "ton_bruta": "Ton Bruta (ton)",
     "ton_selec": "Ton Seleccionado (ton)",
     "concentrado": "Concentrado (ton)",
-    "mtrs_np": "Metros Perforados NP",
     "mtrs_banco": "Metros Perforados Banco",
     "anfo": "ANFO consumido (kg)",
     "detonadores": "Detonadores (unid)",
@@ -34,7 +32,6 @@ FIELD_LABELS = {
 
 # campo -> linea del EERR (kpi_lines) que tiene el presupuesto mensual
 BUDGET_FIELDS = {
-    "disparos_np": "disparos_np",
     "disparos_banco": "disparos_bancos",
     "ton_bruta": "produccion_bruta",
     "ton_selec": "mineral_seleccionado",
@@ -42,7 +39,7 @@ BUDGET_FIELDS = {
 }
 
 # campos sin presupuesto asociado (solo se registra el real)
-NO_BUDGET_FIELDS = ["disparos_des", "mtrs_np", "mtrs_banco", "anfo", "detonadores",
+NO_BUDGET_FIELDS = ["disparos_des", "mtrs_banco", "anfo", "detonadores",
                     "combustible", "horas_equipos", "personal", "disp_equipo"]
 
 # campos que se promedian en vez de sumar al acumular varios dias
@@ -145,7 +142,7 @@ def compute_resumen(date_str):
     })
 
     insumos = []
-    for field in ["mtrs_np", "mtrs_banco", "anfo", "detonadores", "combustible", "horas_equipos", "personal", "disp_equipo"]:
+    for field in ["mtrs_banco", "anfo", "detonadores", "combustible", "horas_equipos", "personal", "disp_equipo"]:
         insumos.append({
             "campo": field, "label": FIELD_LABELS[field],
             "real_dia": today_rec.get(field),

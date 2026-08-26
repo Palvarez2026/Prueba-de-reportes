@@ -478,40 +478,6 @@
         }
       }
     },
-    "disparos_np": {
-      "label": "Disparos NP (N°)",
-      "category": "produccion",
-      "months": {
-        "Jun": {
-          "presup": 0,
-          "real": 0
-        },
-        "Jul": {
-          "presup": 0,
-          "real": 0
-        },
-        "Ago": {
-          "presup": 33,
-          "real": 34
-        },
-        "Sep": {
-          "presup": 23,
-          "real": null
-        },
-        "Oct": {
-          "presup": 35,
-          "real": null
-        },
-        "Nov": {
-          "presup": 35,
-          "real": null
-        },
-        "Dic": {
-          "presup": 35,
-          "real": null
-        }
-      }
-    },
     "disparos_bancos": {
       "label": "Disparos Bancos (N°)",
       "category": "produccion",

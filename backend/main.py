@@ -47,13 +47,11 @@ class GanttTarea(BaseModel):
 
 class DailyEntry(BaseModel):
     fecha: str
-    disparos_np: Optional[float] = None
     disparos_des: Optional[float] = None
     disparos_banco: Optional[float] = None
     ton_bruta: Optional[float] = None
     ton_selec: Optional[float] = None
     concentrado: Optional[float] = None
-    mtrs_np: Optional[float] = None
     mtrs_banco: Optional[float] = None
     anfo: Optional[float] = None
     detonadores: Optional[float] = None

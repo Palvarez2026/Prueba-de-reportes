@@ -1,12 +1,10 @@
 {
   "2026-08-01": {
-    "disparos_np": 1,
     "disparos_des": 0,
     "disparos_banco": 0,
     "ton_bruta": 280,
     "ton_selec": 224,
     "concentrado": 6.9,
-    "mtrs_np": 3,
     "mtrs_banco": 0,
     "anfo": 280,
     "detonadores": 32,
@@ -17,13 +15,11 @@
     "novedades": "Inicio mes Ago. Operación normal."
   },
   "2026-08-03": {
-    "disparos_np": 2,
     "disparos_des": 1,
     "disparos_banco": 0,
     "ton_bruta": 310,
     "ton_selec": 248,
     "concentrado": 7.7,
-    "mtrs_np": 6,
     "mtrs_banco": 0,
     "anfo": 760,
     "detonadores": 86,
@@ -34,13 +30,11 @@
     "novedades": "2 disparos NP turno A y C."
   },
   "2026-08-04": {
-    "disparos_np": 2,
     "disparos_des": 0,
     "disparos_banco": 0,
     "ton_bruta": 285,
     "ton_selec": 228,
     "concentrado": 7.1,
-    "mtrs_np": 6,
     "mtrs_banco": 0,
     "anfo": 560,
     "detonadores": 64,
@@ -51,13 +45,11 @@
     "novedades": "2 disparos NP - operación normal."
   },
   "2026-08-05": {
-    "disparos_np": 1,
     "disparos_des": 1,
     "disparos_banco": 0,
     "ton_bruta": 320,
     "ton_selec": 256,
     "concentrado": 7.9,
-    "mtrs_np": 3,
     "mtrs_banco": 0,
     "anfo": 480,
     "detonadores": 54,
@@ -68,13 +60,11 @@
     "novedades": "Operación normal."
   },
   "2026-08-06": {
-    "disparos_np": 2,
     "disparos_des": 0,
     "disparos_banco": 0,
     "ton_bruta": 295,
     "ton_selec": 236,
     "concentrado": 7.3,
-    "mtrs_np": 6,
     "mtrs_banco": 0,
     "anfo": 560,
     "detonadores": 64,
@@ -85,13 +75,11 @@
     "novedades": "2 disparos NP - rendimiento sobre presupuesto."
   },
   "2026-08-07": {
-    "disparos_np": 1,
     "disparos_des": 1,
     "disparos_banco": 0,
     "ton_bruta": 300,
     "ton_selec": 240,
     "concentrado": 7.4,
-    "mtrs_np": 3,
     "mtrs_banco": 0,
     "anfo": 480,
     "detonadores": 54,
@@ -102,13 +90,11 @@
     "novedades": "Operación normal."
   },
   "2026-08-08": {
-    "disparos_np": 1,
     "disparos_des": 0,
     "disparos_banco": 0,
     "ton_bruta": 260,
     "ton_selec": 208,
     "concentrado": 6.5,
-    "mtrs_np": 3,
     "mtrs_banco": 0,
     "anfo": 280,
     "detonadores": 32,
@@ -119,13 +105,11 @@
     "novedades": "Sábado - dotación completa."
   },
   "2026-08-10": {
-    "disparos_np": 2,
     "disparos_des": 1,
     "disparos_banco": 0,
     "ton_bruta": 315,
     "ton_selec": 252,
     "concentrado": 7.8,
-    "mtrs_np": 6,
     "mtrs_banco": 0,
     "anfo": 760,
     "detonadores": 86,
@@ -136,13 +120,11 @@
     "novedades": "2 disparos NP - buen avance semana."
   },
   "2026-08-11": {
-    "disparos_np": 1,
     "disparos_des": 0,
     "disparos_banco": 0,
     "ton_bruta": 300,
     "ton_selec": 240,
     "concentrado": 7.4,
-    "mtrs_np": 3,
     "mtrs_banco": 0,
     "anfo": 280,
     "detonadores": 32,
@@ -153,13 +135,11 @@
     "novedades": "Operación normal."
   },
   "2026-08-12": {
-    "disparos_np": 2,
     "disparos_des": 1,
     "disparos_banco": 0,
     "ton_bruta": 290,
     "ton_selec": 232,
     "concentrado": 7.2,
-    "mtrs_np": 6,
     "mtrs_banco": 0,
     "anfo": 760,
     "detonadores": 86,
@@ -170,13 +150,11 @@
     "novedades": "2 disparos NP - prod. acumulada sobre meta."
   },
   "2026-08-13": {
-    "disparos_np": 1,
     "disparos_des": 0,
     "disparos_banco": 0,
     "ton_bruta": 320,
     "ton_selec": 256,
     "concentrado": 7.9,
-    "mtrs_np": 3,
     "mtrs_banco": 0,
     "anfo": 280,
     "detonadores": 32,
@@ -187,13 +165,11 @@
     "novedades": "Operación normal."
   },
   "2026-08-14": {
-    "disparos_np": 1,
     "disparos_des": 1,
     "disparos_banco": 0,
     "ton_bruta": 280,
     "ton_selec": 224,
     "concentrado": 6.9,
-    "mtrs_np": 3,
     "mtrs_banco": 0,
     "anfo": 480,
     "detonadores": 54,
@@ -204,13 +180,11 @@
     "novedades": "Operación normal."
   },
   "2026-08-15": {
-    "disparos_np": 0,
     "disparos_des": 1,
     "disparos_banco": 0,
     "ton_bruta": 200,
     "ton_selec": 160,
     "concentrado": 5,
-    "mtrs_np": 0,
     "mtrs_banco": 0,
     "anfo": 200,
     "detonadores": 22,
@@ -221,13 +195,11 @@
     "novedades": "Festivo Asunción - personal reducido, sin tronadura."
   },
   "2026-08-17": {
-    "disparos_np": 2,
     "disparos_des": 0,
     "disparos_banco": 0,
     "ton_bruta": 300,
     "ton_selec": 240,
     "concentrado": 7.4,
-    "mtrs_np": 6,
     "mtrs_banco": 0,
     "anfo": 560,
     "detonadores": 64,
@@ -238,13 +210,11 @@
     "novedades": "2 disparos NP - recuperando ritmo post festivo."
   },
   "2026-08-18": {
-    "disparos_np": 1,
     "disparos_des": 1,
     "disparos_banco": 0,
     "ton_bruta": 305,
     "ton_selec": 244,
     "concentrado": 7.6,
-    "mtrs_np": 3,
     "mtrs_banco": 0,
     "anfo": 480,
     "detonadores": 54,
@@ -255,13 +225,11 @@
     "novedades": "Operación normal."
   },
   "2026-08-19": {
-    "disparos_np": 1,
     "disparos_des": 0,
     "disparos_banco": 0,
     "ton_bruta": 275,
     "ton_selec": 220,
     "concentrado": 6.8,
-    "mtrs_np": 3,
     "mtrs_banco": 0,
     "anfo": 280,
     "detonadores": 32,
@@ -272,13 +240,11 @@
     "novedades": "Operación normal."
   },
   "2026-08-20": {
-    "disparos_np": 2,
     "disparos_des": 1,
     "disparos_banco": 0,
     "ton_bruta": 310,
     "ton_selec": 248,
     "concentrado": 7.7,
-    "mtrs_np": 6,
     "mtrs_banco": 0,
     "anfo": 760,
     "detonadores": 86,
@@ -289,13 +255,11 @@
     "novedades": "2 disparos NP."
   },
   "2026-08-21": {
-    "disparos_np": 1,
     "disparos_des": 0,
     "disparos_banco": 0,
     "ton_bruta": 290,
     "ton_selec": 232,
     "concentrado": 7.2,
-    "mtrs_np": 3,
     "mtrs_banco": 0,
     "anfo": 280,
     "detonadores": 32,
@@ -306,13 +270,11 @@
     "novedades": "Operación normal."
   },
   "2026-08-22": {
-    "disparos_np": 1,
     "disparos_des": 1,
     "disparos_banco": 0,
     "ton_bruta": 265,
     "ton_selec": 212,
     "concentrado": 6.6,
-    "mtrs_np": 3,
     "mtrs_banco": 0,
     "anfo": 480,
     "detonadores": 54,
@@ -323,13 +285,11 @@
     "novedades": "Sábado - operación normal."
   },
   "2026-08-24": {
-    "disparos_np": 2,
     "disparos_des": 0,
     "disparos_banco": 0,
     "ton_bruta": 310,
     "ton_selec": 248,
     "concentrado": 7.7,
-    "mtrs_np": 6,
     "mtrs_banco": 0,
     "anfo": 560,
     "detonadores": 64,
@@ -340,13 +300,11 @@
     "novedades": "2 disparos NP - 3ra semana sobre presupuesto."
   },
   "2026-08-25": {
-    "disparos_np": 1,
     "disparos_des": 1,
     "disparos_banco": 0,
     "ton_bruta": 295,
     "ton_selec": 236,
     "concentrado": 7.3,
-    "mtrs_np": 3,
     "mtrs_banco": 0,
     "anfo": 480,
     "detonadores": 54,
@@ -357,13 +315,11 @@
     "novedades": "Operación normal."
   },
   "2026-08-26": {
-    "disparos_np": 2,
     "disparos_des": 0,
     "disparos_banco": 0,
     "ton_bruta": 310,
     "ton_selec": 248,
     "concentrado": 7.7,
-    "mtrs_np": 6,
     "mtrs_banco": 0,
     "anfo": 560,
     "detonadores": 64,

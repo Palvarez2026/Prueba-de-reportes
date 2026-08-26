@@ -96,6 +96,10 @@ function App(){
   }, [fecha, historial]);
 
   const guardar = () => {
+    if (fecha > todayISO()) {
+      setMsg({type:"err", text:"No se pueden ingresar datos con fecha futura."});
+      return;
+    }
     const body = { fecha };
     FIELDS.forEach(fld => {
       if (form[fld.key] !== "" && form[fld.key] !== undefined) body[fld.key] = Number(form[fld.key]);
@@ -122,7 +126,8 @@ function App(){
       <div className="panel">
         <div className="field" style={{maxWidth:220}}>
           <label>Fecha</label>
-          <input type="date" value={fecha} onChange={e=>setFecha(e.target.value)} />
+          <input type="date" value={fecha} max={todayISO()}
+            onChange={e=>setFecha(e.target.value > todayISO() ? todayISO() : e.target.value)} />
         </div>
 
         {groups.map(g => (

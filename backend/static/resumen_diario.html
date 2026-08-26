@@ -77,7 +77,8 @@ function App(){
 
       <div className="panel" style={{maxWidth:220}}>
         <label style={{fontSize:12,color:"var(--muted)",display:"block",marginBottom:4}}>Fecha</label>
-        <input type="date" value={fecha} onChange={e=>setFecha(e.target.value)}
+        <input type="date" value={fecha} max={todayISO()}
+          onChange={e=>setFecha(e.target.value > todayISO() ? todayISO() : e.target.value)}
           style={{width:"100%",background:"#0b1220",border:"1px solid var(--border)",color:"var(--text)",borderRadius:6,padding:"7px 9px",fontSize:13}} />
       </div>
 

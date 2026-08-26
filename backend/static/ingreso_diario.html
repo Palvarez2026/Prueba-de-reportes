@@ -50,13 +50,11 @@ const { useState, useEffect } = React;
 const API_BASE = window.EERR_API_BASE || "";
 
 const FIELDS = [
-  {key:"disparos_np", label:"Disparos NP (N°)", group:"Producción"},
   {key:"disparos_des", label:"Disparos Desarrollo (N°)", group:"Producción"},
   {key:"disparos_banco", label:"Disparos Banco (N°)", group:"Producción"},
   {key:"ton_bruta", label:"Ton Bruta (ton)", group:"Producción"},
   {key:"ton_selec", label:"Ton Seleccionado (ton)", group:"Producción"},
   {key:"concentrado", label:"Concentrado (ton)", group:"Producción"},
-  {key:"mtrs_np", label:"Metros Perforados NP", group:"Perforación"},
   {key:"mtrs_banco", label:"Metros Perforados Banco", group:"Perforación"},
   {key:"anfo", label:"ANFO consumido (kg)", group:"Insumos"},
   {key:"detonadores", label:"Detonadores (unid)", group:"Insumos"},
@@ -160,7 +158,7 @@ function App(){
           <table>
             <thead>
               <tr>
-                <th>Fecha</th><th>Disp.NP</th><th>Ton Bruta</th><th>Ton Selec.</th><th>Conc.</th>
+                <th>Fecha</th><th>Disp.Banco</th><th>Ton Bruta</th><th>Ton Selec.</th><th>Conc.</th>
                 <th>ANFO</th><th>Combust.</th><th>Personal</th><th>Novedades</th>
               </tr>
             </thead>
@@ -169,7 +167,7 @@ function App(){
                 const r = historial[f];
                 return (
                   <tr key={f} style={{cursor:"pointer"}} onClick={()=>setFecha(f)}>
-                    <td>{f}</td><td>{r.disparos_np ?? "—"}</td><td>{r.ton_bruta ?? "—"}</td>
+                    <td>{f}</td><td>{r.disparos_banco ?? "—"}</td><td>{r.ton_bruta ?? "—"}</td>
                     <td>{r.ton_selec ?? "—"}</td><td>{r.concentrado ?? "—"}</td>
                     <td>{r.anfo ?? "—"}</td><td>{r.combustible ?? "—"}</td><td>{r.personal ?? "—"}</td>
                     <td className="novedades-cell">{r.novedades || ""}</td>

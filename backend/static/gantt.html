@@ -123,8 +123,9 @@
   .gantt-row.clickable:hover .gantt-track{background:rgba(59,130,246,.06);}
   .gantt-row.highlight .gantt-label{color:var(--accent);}
   .gantt-label{flex:0 0 auto;position:sticky;left:0;z-index:2;background:var(--panel);
-       padding:8px 8px;font-size:11.5px;font-weight:500;white-space:nowrap;overflow:hidden;
-       text-overflow:ellipsis;border-right:1px solid var(--border);display:flex;align-items:center;}
+       padding:8px 8px;font-size:11.5px;font-weight:500;line-height:1.3;
+       display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;-webkit-box-align:center;
+       overflow:hidden;border-right:1px solid var(--border);}
   .gantt-corner{flex:0 0 auto;position:sticky;left:0;z-index:3;background:var(--panel);
        border-right:1px solid var(--border);}
   .gantt-month{flex:0 0 auto;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;
@@ -256,7 +257,7 @@ function diffDays(a, b){
 
 const MESES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
 const DAY_W = 24;
-const LABEL_W = 130;
+const LABEL_W = 190;
 
 function addDaysToISO(iso, n){
   const d = new Date(iso + "T00:00:00");

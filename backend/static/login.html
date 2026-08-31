@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ingresar — Mina RA</title>
+<style>
+  :root{
+    --bg:#0f172a; --panel:#111827; --border:#263244;
+    --text:#e5e9f0; --muted:#8b96a8; --accent:#3b82f6; --bad:#ef4444;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);
+       min-height:100vh;display:flex;align-items:center;justify-content:center;}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:32px;width:100%;max-width:340px;}
+  h1{font-size:18px;margin:0 0 4px 0;}
+  .sub{color:var(--muted);font-size:12.5px;margin-bottom:22px;}
+  label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px;}
+  select, input{width:100%;background:#0b1220;border:1px solid var(--border);color:var(--text);
+       border-radius:6px;padding:9px 10px;font-size:14px;font-family:inherit;}
+  select:focus, input:focus{outline:1px solid var(--accent);}
+  .field{margin-bottom:16px;}
+  button{width:100%;background:var(--accent);color:white;border:none;border-radius:8px;padding:11px 18px;
+       font-size:14px;font-weight:500;cursor:pointer;margin-top:4px;}
+  button:hover{opacity:.9;}
+  button:disabled{opacity:.6;cursor:default;}
+  .msg{font-size:13px;margin-top:12px;color:var(--bad);text-align:center;}
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Mina RA</h1>
+  <div class="sub">Ingresa con tu rol para continuar</div>
+  <form id="loginForm">
+    <div class="field">
+      <label>Rol</label>
+      <select id="rol">
+        <option value="admin">Admin</option>
+        <option value="director">Director</option>
+        <option value="supervisor">Supervisor</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Clave</label>
+      <input type="password" id="clave" autocomplete="current-password" required />
+    </div>
+    <button type="submit" id="btn">Ingresar</button>
+    <div class="msg" id="msg"></div>
+  </form>
+</div>
+<script>
+var form = document.getElementById('loginForm');
+var btn = document.getElementById('btn');
+var msg = document.getElementById('msg');
+form.addEventListener('submit', function(e){
+  e.preventDefault();
+  btn.disabled = true;
+  msg.textContent = '';
+  var rol = document.getElementById('rol').value;
+  var clave = document.getElementById('clave').value;
+  fetch((window.EERR_API_BASE||'') + '/api/login', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({rol: rol, clave: clave})
+  }).then(function(r){
+    if(!r.ok){ throw new Error('Rol o clave incorrectos'); }
+    return r.json();
+  }).then(function(d){
+    window.location.href = d.landing || '/';
+  }).catch(function(e){
+    msg.textContent = e.message;
+    btn.disabled = false;
+  });
+});
+</script>
+</body>
+</html>

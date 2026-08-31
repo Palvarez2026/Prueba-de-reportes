@@ -141,13 +141,53 @@
 </style>
 </head>
 <body>
-<div class="navbar">
+<div class="navbar" id="navbar">
   <a href="/" class="navlink">Estado de Resultados</a>
   <a href="/ingreso_diario.html" class="navlink">Ingreso Diario</a>
   <a href="/resumen_diario.html" class="navlink">Resumen Diario</a>
   <a href="/gantt.html" class="navlink active">Carta Gantt</a>
+  <a href="/admin.html" class="navlink">Administración</a>
 </div>
 <div id="root">Cargando…</div>
+<script>
+(function(){
+  var PAGE_ACCESS = {
+    '/': ['admin','director'],
+    '/index.html': ['admin','director'],
+    '/ingreso_diario.html': ['admin','supervisor'],
+    '/resumen_diario.html': ['admin','director'],
+    '/gantt.html': ['admin','director'],
+    '/admin.html': ['admin'],
+  };
+  fetch((window.EERR_API_BASE||'') + '/api/me').then(function(r){return r.json();}).then(function(d){
+    if(!d.autenticado){ window.location.href = '/login.html'; return; }
+    var nav = document.getElementById('navbar');
+    if(nav){
+      var links = nav.querySelectorAll('a');
+      links.forEach(function(a){
+        var href = a.getAttribute('href');
+        var allowed = PAGE_ACCESS[href] || ['admin'];
+        if(allowed.indexOf(d.rol) === -1){ a.remove(); }
+      });
+      var info = document.createElement('span');
+      info.style.cssText = 'margin-left:auto;display:flex;align-items:center;gap:10px;color:#8b96a8;font-size:12px;';
+      var rolLabel = document.createElement('span');
+      rolLabel.textContent = 'Rol: ' + d.rol;
+      var logout = document.createElement('a');
+      logout.href = '#';
+      logout.textContent = 'Cerrar sesión';
+      logout.style.cssText = 'color:#ef4444;text-decoration:none;cursor:pointer;';
+      logout.onclick = function(e){
+        e.preventDefault();
+        fetch((window.EERR_API_BASE||'') + '/api/logout', {method:'POST'}).then(function(){ window.location.href='/login.html'; });
+      };
+      info.appendChild(rolLabel);
+      info.appendChild(logout);
+      nav.appendChild(info);
+    }
+  }).catch(function(){ window.location.href = '/login.html'; });
+})();
+</script>
 <script type="text/babel" data-presets="react">
 const { useState, useEffect, useCallback, useMemo } = React;
 const API_BASE = window.EERR_API_BASE || "";
